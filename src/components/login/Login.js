@@ -7,7 +7,7 @@ class Login extends HTMLElement {
             .then(text => this.innerHTML = text)
     }
 
-    connnectedCallback() {
+    connectedCallback() {
         console.log('Componenente renderizado na DOM')
     }
 }

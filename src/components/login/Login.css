@@ -21,7 +21,7 @@ p.style-text-sign-up {
 
 .display-flex {
     width: 70%;
-    height: 95vh;
+    height: 100vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
