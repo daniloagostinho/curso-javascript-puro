@@ -12,6 +12,11 @@ class Login extends HTMLElement {
     }
 }
 
+const openRegistrationModal = () => {
+    const dialog = document.querySelector('.dialog-registration-modal');
+    dialog.click();
+}
+
 if ('customElements' in window) {
     customElements.define('app-login', Login)
 }
