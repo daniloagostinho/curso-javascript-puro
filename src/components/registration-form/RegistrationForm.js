@@ -10,6 +10,7 @@ class RegistrationForm extends HTMLElement {
     connectedCallback() {
         setTimeout(() => {
             setAvatar();
+            formValidationRegistration();
         }, 1000)
     }
 }
@@ -24,7 +25,7 @@ const setAvatar = () => {
 }
 
 const uploadAvatar = (event) => {
-    if(event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
         const file = event.target.files[0];
 
         const reader = new FileReader();
@@ -35,6 +36,24 @@ const uploadAvatar = (event) => {
 
         uploadedAvatar = file;
     }
+}
+
+const validateRegistrationName = (name) => {
+    const regex = /^[a-zA-ZÁ-ÿ\s]+$/;
+    return regex.test(name);
+}
+
+const formValidationRegistration = () => {
+    const button = document.querySelector('.btn-registration');
+    const nameInput = document.querySelector('.nameRegistrationInput');
+    const nameError = document.getElementById('nameRegistrationError');
+
+    const validationDelay = 1000;
+    
+    if(nameInput) {
+        addInputValidationEventWithDelay(nameInput, validateRegistrationName, nameError, button, validationDelay)
+    }
+
 }
 
 if ('customElements' in window) {
