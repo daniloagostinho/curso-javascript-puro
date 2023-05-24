@@ -7,7 +7,21 @@ class RegistrationForm extends HTMLElement {
             .then(text => this.innerHTML = text)
     }
 
+    connectedCallback() {
+        setTimeout(() => {
+            setAvatar();
+        }, 1000)
+    }
 }
+
+const setAvatar = () => {
+    const imgAvatar = document.querySelector('.avatar');
+    if(imgAvatar) {
+        imgAvatar.src = 'src/assets/images/avatar.png'
+    }
+}
+
+
 
 if ('customElements' in window) {
     customElements.define('app-registration-form', RegistrationForm)
