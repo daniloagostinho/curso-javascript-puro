@@ -11,6 +11,8 @@ class RegistrationForm extends HTMLElement {
         setTimeout(() => {
             setAvatar();
             formValidationRegistration();
+            console.log(extractInputValues())
+
         }, 1000)
     }
 }
@@ -134,6 +136,24 @@ const formValidationRegistration = () => {
         })
     }
 }
+
+const extractInputValues = () => {
+    const name = document.querySelector('.nameRegistrationInput').value;
+    const email = document.querySelector('.emailRegistrationInput').value;
+    // const gender
+    const image = uploadedAvatar;
+    const password = document.querySelector('.passwordRegistrationInput').value;
+    const confirmPassword = document.querySelector('.confirmPasswordRegistrationInput').value;
+
+    return {
+        name,
+        email,
+        image,
+        password,
+        confirmPassword
+    }
+}
+
 
 if ('customElements' in window) {
     customElements.define('app-registration-form', RegistrationForm)
