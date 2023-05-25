@@ -16,6 +16,8 @@ class RegistrationForm extends HTMLElement {
 }
 
 let uploadedAvatar;
+let password;
+let confirmPassword;
 
 const setAvatar = () => {
     const imgAvatar = document.querySelector('.avatar');
@@ -52,29 +54,85 @@ const validateRegistrationPassword = (password) => {
     return password.length >= 4;
 }
 
+const enableButton = () => {
+    const button = document.querySelector('.btn-registration');
+    button.disabled = false;
+}
+
+const disableButton = () => {
+    const button = document.querySelector('.btn-registration');
+    button.disabled = true;
+}
+
+const hideErrorMessage = () => {
+    const errorMessage = document.querySelector('.no-match-password');
+    errorMessage.style.display = 'none';
+    enableButton();
+}
+
+const showErrorMessage = () => {
+    const errorMessage = document.querySelector('.no-match-password');
+    errorMessage.style.display = 'block';
+    disableButton();
+}
+
+const isPasswordMatch = () => {
+    if (password && confirmPassword && password == confirmPassword) {
+        hideErrorMessage();
+        return true;
+    }
+
+    return false;
+}
+
+const configCloseModalRemove = () => {
+    const btnCloseModal = document.querySelector('.btn-registration');
+    btnCloseModal.removeAttribute('data-dismiss')
+}
+
+const verifyPasswordMisMatch = () => {
+    if (password && confirmPassword && password !== confirmPassword) {
+        showErrorMessage();
+        configCloseModalRemove();
+    }
+}
+
 const formValidationRegistration = () => {
     const button = document.querySelector('.btn-registration');
     const nameInput = document.querySelector('.nameRegistrationInput');
     const nameError = document.getElementById('nameRegistrationError');
     const emailInput = document.querySelector('.emailRegistrationInput');
     const emailError = document.getElementById('emailErrorRegistration');
-    const passowrdInput = document.querySelector('.passwordRegistrationInput');
+    const passwordInput = document.querySelector('.passwordRegistrationInput');
     const passwordError = document.getElementById('passwordRegistrationError');
+    const confirmPasswordInput = document.querySelector('.confirmPasswordRegistrationInput');
 
     const validationDelay = 1000;
-    
-    if(nameInput) {
+
+    if (nameInput) {
         addInputValidationEventWithDelay(nameInput, validateRegistrationName, nameError, button, validationDelay)
     }
 
-    if(emailInput) {
+    if (emailInput) {
         addInputValidationEventWithDelay(emailInput, validateRegistrationEmail, emailError, button, validationDelay)
     }
 
-    if(passowrdInput) {
-        addInputValidationEventWithDelay(passowrdInput, validateRegistrationPassword, passwordError, button, validationDelay)
+    if (passwordInput) {
+        addInputValidationEventWithDelay(passwordInput, validateRegistrationPassword, passwordError, button, validationDelay);
+        passwordInput.addEventListener('input', event => {
+            password = event.target.value;
+            isPasswordMatch();
+            verifyPasswordMisMatch();
+        })
     }
 
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', event => {
+            confirmPassword = event.target.value;
+            isPasswordMatch();
+            verifyPasswordMisMatch();
+        })
+    }
 }
 
 if ('customElements' in window) {
