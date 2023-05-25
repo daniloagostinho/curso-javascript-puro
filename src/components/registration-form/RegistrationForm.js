@@ -43,15 +43,36 @@ const validateRegistrationName = (name) => {
     return regex.test(name);
 }
 
+const validateRegistrationEmail = (email) => {
+    const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    return regex.test(email);
+}
+
+const validateRegistrationPassword = (password) => {
+    return password.length >= 4;
+}
+
 const formValidationRegistration = () => {
     const button = document.querySelector('.btn-registration');
     const nameInput = document.querySelector('.nameRegistrationInput');
     const nameError = document.getElementById('nameRegistrationError');
+    const emailInput = document.querySelector('.emailRegistrationInput');
+    const emailError = document.getElementById('emailErrorRegistration');
+    const passowrdInput = document.querySelector('.passwordRegistrationInput');
+    const passwordError = document.getElementById('passwordRegistrationError');
 
     const validationDelay = 1000;
     
     if(nameInput) {
         addInputValidationEventWithDelay(nameInput, validateRegistrationName, nameError, button, validationDelay)
+    }
+
+    if(emailInput) {
+        addInputValidationEventWithDelay(emailInput, validateRegistrationEmail, emailError, button, validationDelay)
+    }
+
+    if(passowrdInput) {
+        addInputValidationEventWithDelay(passowrdInput, validateRegistrationPassword, passwordError, button, validationDelay)
     }
 
 }
