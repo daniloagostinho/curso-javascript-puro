@@ -8,4 +8,6 @@ window.gender = [
     {
         name: 'Outro'
     }
-]
+];
+
+window.apiURL = 'http://localhost:3000';

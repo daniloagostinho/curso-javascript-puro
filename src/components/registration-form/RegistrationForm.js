@@ -155,8 +155,26 @@ const extractInputValues = () => {
     }
 }
 
+const emptyFieldsCheck = (name, email, gender, image, password, confirmPassword) => 
+    name !== '' && 
+    email !== '' &&
+    gender !== '' &&
+    image !== undefined &&
+    password &&
+    confirmPassword
+
+const registerUser = async (payload) => {
+    await window.registerUser(`${window.apiURL}/auth/register/user`, payload)
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+        })
+    
+}
+
 const sendDataToBackend = () => {
     const extractValues = extractInputValues();
+    const btnCloseModal = document.querySelector('.btn-registration');
 
     const payload = {
         name: extractValues.name,
@@ -167,9 +185,15 @@ const sendDataToBackend = () => {
         confirmPassword: extractValues.confirmPassword
     }
 
-    // Validar se os campos da modal foram preenchidos
+    if(!emptyFieldsCheck(extractValues.name, extractValues.email, extractValues.gender,
+        extractValues.image, extractValues.password, extractValues.confirmPassword)) {
+            btnCloseModal.removeAttribute('data-dismiss');
+            alert('Por favor preencha os campos vazios!');
+            return;
+    }
 
-    console.log(payload)
+    btnCloseModal.setAttribute('data-dismiss', 'modal');
+    registerUser(payload);
 }
 
 
