@@ -11,7 +11,7 @@ class RegistrationForm extends HTMLElement {
         setTimeout(() => {
             setAvatar();
             formValidationRegistration();
-            console.log(extractInputValues())
+            createSelectElement('user', 'registration', '.select-container-gender', 'Gênero', window.gender, 3);
 
         }, 1000)
     }
@@ -140,7 +140,7 @@ const formValidationRegistration = () => {
 const extractInputValues = () => {
     const name = document.querySelector('.nameRegistrationInput').value;
     const email = document.querySelector('.emailRegistrationInput').value;
-    // const gender
+    const gender = document.querySelector('.user-registration-category').value;
     const image = uploadedAvatar;
     const password = document.querySelector('.passwordRegistrationInput').value;
     const confirmPassword = document.querySelector('.confirmPasswordRegistrationInput').value;
@@ -148,6 +148,7 @@ const extractInputValues = () => {
     return {
         name,
         email,
+        gender,
         image,
         password,
         confirmPassword
