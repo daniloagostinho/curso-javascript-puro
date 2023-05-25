@@ -155,6 +155,23 @@ const extractInputValues = () => {
     }
 }
 
+const sendDataToBackend = () => {
+    const extractValues = extractInputValues();
+
+    const payload = {
+        name: extractValues.name,
+        email: extractValues.email,
+        gender: extractValues.gender,
+        image: extractValues.image,
+        password: extractValues.password,
+        confirmPassword: extractValues.confirmPassword
+    }
+
+    // Validar se os campos da modal foram preenchidos
+
+    console.log(payload)
+}
+
 
 if ('customElements' in window) {
     customElements.define('app-registration-form', RegistrationForm)
