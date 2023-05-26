@@ -155,21 +155,44 @@ const extractInputValues = () => {
     }
 }
 
-const emptyFieldsCheck = (name, email, gender, image, password, confirmPassword) => 
-    name !== '' && 
+const emptyFieldsCheck = (name, email, gender, image, password, confirmPassword) =>
+    name !== '' &&
     email !== '' &&
     gender !== '' &&
     image !== undefined &&
     password &&
     confirmPassword
 
+const captureErrorOnUserRegistration = (response) => {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+
+    return response;
+}
+
+const checkErrorType = (error) => {
+    if (error == 'Error: Unprocessable Entity') {
+        alert('Já existe uma conta com esse e-mail!')
+    }
+}
+
+const initToast = () => {
+    let toastEl = document.querySelector('.toast');
+    let toast = new bootstrap.Toast(toastEl);
+
+    toast.show();
+}
+
 const registerUser = async (payload) => {
     await window.registerUser(`${window.apiURL}/auth/register/user`, payload)
+        .then(captureErrorOnUserRegistration)
         .then(response => response.json())
         .then(response => {
-            console.log(response)
-        })
-    
+            localStorage.setItem('userInfo', JSON.stringify(response.user));
+            initToast();
+        }).catch(checkErrorType)
+
 }
 
 const sendDataToBackend = () => {
@@ -185,11 +208,11 @@ const sendDataToBackend = () => {
         confirmPassword: extractValues.confirmPassword
     }
 
-    if(!emptyFieldsCheck(extractValues.name, extractValues.email, extractValues.gender,
+    if (!emptyFieldsCheck(extractValues.name, extractValues.email, extractValues.gender,
         extractValues.image, extractValues.password, extractValues.confirmPassword)) {
-            btnCloseModal.removeAttribute('data-dismiss');
-            alert('Por favor preencha os campos vazios!');
-            return;
+        btnCloseModal.removeAttribute('data-dismiss');
+        alert('Por favor preencha os campos vazios!');
+        return;
     }
 
     btnCloseModal.setAttribute('data-dismiss', 'modal');
