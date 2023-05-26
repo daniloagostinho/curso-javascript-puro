@@ -163,13 +163,6 @@ const emptyFieldsCheck = (name, email, gender, image, password, confirmPassword)
     password &&
     confirmPassword
 
-const captureErrorOnUserRegistration = (response) => {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-
-    return response;
-}
 
 const checkErrorType = (error) => {
     if (error == 'Error: Unprocessable Entity') {
@@ -186,7 +179,7 @@ const initToast = () => {
 
 const registerUser = async (payload) => {
     await window.registerUser(`${window.apiURL}/auth/register/user`, payload)
-        .then(captureErrorOnUserRegistration)
+        .then(captureErrorRequest)
         .then(response => response.json())
         .then(response => {
             localStorage.setItem('userInfo', JSON.stringify(response.user));
