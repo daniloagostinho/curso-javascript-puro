@@ -38,6 +38,8 @@ const authenticateUser = async () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', email);
 
+        navigateTo('/dashboard')
+
     } catch (error) {
         showErrorModal(error)
     }
