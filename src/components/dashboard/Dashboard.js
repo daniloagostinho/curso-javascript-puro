@@ -6,6 +6,16 @@ class Dashboard extends HTMLElement {
             .then(response => response.text())
             .then(text => this.innerHTML = text)
     }
+
+    connectedCallback() {
+        setTimeout(() => {
+            const loading = document.querySelector('.loading');
+            const appContent = document.querySelector('.app-content');
+
+            loading.style.display = 'none';
+            appContent.style.display = 'block';
+        }, 3000)
+    }
 }
 
 if ('customElements' in window) {
