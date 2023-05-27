@@ -10,6 +10,7 @@ const renderRoute = async (route) => {
 }
 
 const navigateTo = (pathname) => {
+    window.history.pushState({}, pathname, window.location.origin + pathname)
     renderRoute(pathname);
 }
 
