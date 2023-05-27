@@ -18,6 +18,16 @@ window.login = (url, user) => {
     return fetch(url, {
         method: 'POST',
         body: JSON.stringify(user),
-        headers: {'Content-type': 'application/json'}
+        headers: { 'Content-type': 'application/json' }
+    })
+}
+
+window.validateToken = (url, token) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
     })
 }
