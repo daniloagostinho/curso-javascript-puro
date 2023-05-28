@@ -10,9 +10,43 @@ class Menu extends HTMLElement {
     connectedCallback() {
         setTimeout(() => {
             getImageUser();
+            messageWelcome();
         }, 1000)
     }
 }
+
+const getMessageByHour = (hour) => {
+    if (hour <= 5) {
+        return 'Boa madrugada'
+    }
+
+    if (hour < 12) {
+        return 'Bom dia!';
+    }
+
+    if (hour < 18) {
+        return 'Boa tarde!';
+    }
+
+    return 'Boa noite!'
+}
+
+const messageWelcome = () => {
+    const messageContainer = document.querySelector('.message');
+
+    const { name } = JSON.parse(localStorage.getItem('userInfo'));
+
+    const currentHour = new Date().getHours();
+
+    const greetingMessage = getMessageByHour(currentHour);
+
+    const capitalizeUserName = capitalizeFirstLetter(name);
+
+    messageContainer.innerHTML = `Olá <strong>${capitalizeUserName}</strong>, ${greetingMessage}`
+
+}
+
+
 
 const getImageUser = () => {
     const img = document.querySelector('.profile-img');
@@ -26,8 +60,6 @@ const getImageUser = () => {
             let url = 'data:image/jpg;base64, ' + response.image;
             img.src = url;
         })
-
-
 }
 
 if ('customElements' in window) {
