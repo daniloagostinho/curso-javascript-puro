@@ -31,3 +31,12 @@ window.validateToken = (url, token) => {
         }
     })
 }
+
+window.downloadImage = (url, param) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'imgName': param
+        }
+    })
+}
