@@ -9,10 +9,19 @@ class AddIncomeModal extends HTMLElement {
 
     connectedCallback() {
         setTimeout(() => {
-            createSelectElement('income', 'add-income', '.select-container-income', 'Categoria da Receita', window.typeIncome, 12);
-            createSelectElement('income', 'payment-mthod', '.select-container-payment-method-income', 'Método de pagamento', window.paymentMethod, 9)
+            createSelectElement('income', 'add', '.select-container-income', 'Categoria da Receita', window.typeIncome, 12);
+            createSelectElement('income', 'payment-method', '.select-container-payment-method-income', 'Método de pagamento', window.paymentMethod, 9)
         }, 1000)
     }
+}
+
+const handleAddIncome = (event) => {
+    event.preventDefault();
+
+    const incomeDetails = createObjtransactionDetails('income');
+    
+    console.log(incomeDetails)
+
 }
 
 if ('customElements' in window) {
