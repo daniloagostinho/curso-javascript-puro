@@ -57,3 +57,70 @@ const selectInputsDom = (financialType) => {
 
     return result;
 }
+
+const formatCurrency = (event, financialType) => {
+    const filterValue = event.target.value.replace(/\D/g, '');
+
+    const currency = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(parseFloat(filterValue / 100))
+
+
+    event.target.value = currency;
+
+    const valueFormated = parseFloat(filterValue / 100);
+
+    if (financialType === 'income') {
+        window.valueAddIncomeModal = valueFormated;
+        return;
+    } else if (financialType === 'expense') {
+        window.valueAddExpenseModal = valueFormated;
+    }
+
+}
+
+const toggleCheckboxes = (currentFutureSelector, currentPastSelector) => {
+    const currentFutureCheckbox = document.querySelector(currentFutureSelector);
+    const currentPastCheckbox = document.querySelector(currentPastSelector);
+
+    if (currentFutureCheckbox) {
+        currentFutureCheckbox.addEventListener('change', () => {
+            if (currentFutureCheckbox.checked) {
+                currentPastCheckbox.disabled = true;
+            } else {
+                currentPastCheckbox.disabled = false;
+            }
+        })
+    }
+
+    if (currentPastCheckbox) {
+        currentPastCheckbox.addEventListener('change', () => {
+            if (currentPastCheckbox.checked) {
+                currentFutureCheckbox.disabled = true;
+            } else {
+                currentFutureCheckbox.disabled = false;
+            }
+        })
+    }
+}
+
+const verifyFieldFillTransaction = (financialType, transactionDetails) => {
+    const requiredFields = {
+        income: ['income', 'value', 'dueDate'],
+        expense: ['expense', 'category', 'value', 'dueDate']
+    }
+
+    const fieldsToCheck = requiredFields[financialType];
+
+    return fieldsToCheck.every(field => transactionDetails[field] !== '' && transactionDetails[field] !== undefined)
+
+}
+
+const registerFixedTransaction = async (financialType) => {
+    console.log('registerFixedTransaction --.>>  ')
+}
+
+const currentMonthTransactionRegistration = async (financialType) => {
+    console.log('currentMonthTransactionRegistration -->> ')
+}

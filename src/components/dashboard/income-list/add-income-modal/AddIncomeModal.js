@@ -10,7 +10,10 @@ class AddIncomeModal extends HTMLElement {
     connectedCallback() {
         setTimeout(() => {
             createSelectElement('income', 'add', '.select-container-income', 'Categoria da Receita', window.typeIncome, 12);
-            createSelectElement('income', 'payment-method', '.select-container-payment-method-income', 'Método de pagamento', window.paymentMethod, 9)
+            createSelectElement('income', 'payment-method', '.select-container-payment-method-income', 'Método de pagamento', window.paymentMethod, 9);
+
+
+            toggleCheckboxes('.currentFutureFixedIncome', '.currentPastFixedIncome');
         }, 1000)
     }
 }
@@ -19,8 +22,17 @@ const handleAddIncome = (event) => {
     event.preventDefault();
 
     const incomeDetails = createObjtransactionDetails('income');
+    const buttonAddIncome = document.querySelector('.add-income')
+
+    if (!verifyFieldFillTransaction('income', incomeDetails)) {
+        buttonAddIncome.removeAttribute('data-dismiss');
+        alert('Preencha os campos vazios!');
+        return;
+    }
     
-    console.log(incomeDetails)
+    buttonAddIncome.setAttribute('data-dismiss', 'modal');
+    incomeDetails.currentFutureFixed || incomeDetails.currentPastFixed ? registerFixedTransaction('income') : currentMonthTransactionRegistration('income')
+
 
 }
 
