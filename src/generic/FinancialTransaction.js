@@ -27,6 +27,7 @@ const selectDomElements = (financialType) => {
 }
 
 const fetchFinancialRecords = async (financialType) => {
+    window.currentMonth = 'junho';
     const domElements = selectDomElements(financialType);
     domElements.spinnerContainer.style.display = 'block';
 
@@ -40,9 +41,26 @@ const fetchFinancialRecords = async (financialType) => {
     window.fetchRecords(`${window.apiURL}${endpoint}`, capitalizeFirstLetter(selectedMonth), isSelectedYear, user)
         .then(response => response.json())
         .then(response => {
-            console.log(response)
+           
+            let financialList = [];
+
+            if (response.result.length === 0) {
+                domElements.registerBlock.style.display = 'block';
+            } else {
+                response.result.forEach(record => {
+                    financialList.push(record.user.month.listMonth)
+                })
+                
+                domElements.searchBlock.style.display = 'block';
+                domElements.selectFilterCategory.style.display = 'block';
+                domElements.selectFilterRange.style.display = 'block';
+                domElements.pagination.style.display = 'block';
+                domElements.registerBlock.style.display = 'none';
+                domElements.spinnerContainer.style.display = 'none';
+
+            }
         })
 
-    console.log(domElements)
+
 }
 
