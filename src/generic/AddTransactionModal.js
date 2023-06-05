@@ -11,8 +11,8 @@ const createObjtransactionDetails = (financialType) => {
     } = selectInputsDom(financialType);
 
     const transactionDetail = {
-        value, 
-        dueDate, 
+        value,
+        dueDate,
         currentFutureFixed,
         currentPastFixed
     }
@@ -20,7 +20,7 @@ const createObjtransactionDetails = (financialType) => {
     if (financialType === 'income') {
         transactionDetail.income = income;
         transactionDetail.paymentMethod = paymentMethod;
-    } else if(financialType === 'expense') {
+    } else if (financialType === 'expense') {
         transactionDetail.expense = expense;
         transactionDetail.catrgory = category
     }
@@ -41,9 +41,9 @@ const selectInputsDom = (financialType) => {
 
 
     const result = {
-        [financialType] : transaction,
+        [financialType]: transaction,
         value,
-        dueDate, 
+        dueDate,
         currentFutureFixed,
         currentPastFixed,
         user
@@ -129,7 +129,7 @@ const registerFixedTransaction = async (financialType) => {
     if (selectInputs.currentFutureFixed) {
         const futureMonths = window.months.slice(currentMonthIndex);
         await registerTransactions(apiUrl, financialType, selectInputs, futureMonths)
-    } else if(selectInputs.currentPastFixed) {
+    } else if (selectInputs.currentPastFixed) {
         const pastAndCurrentMonths = window.months;
         await registerTransactions(apiUrl, financialType, selectInputs, pastAndCurrentMonths)
     }
@@ -138,7 +138,7 @@ const registerFixedTransaction = async (financialType) => {
 }
 
 const clearForm = (financialType) => {
-    window[`add${capitalizeFirstLetter(financialType)}`].add = {request: true};
+    window[`add${capitalizeFirstLetter(financialType)}`].add = { request: true };
     document.querySelector(`.add-${financialType}-modal-form`).reset();
     document.querySelector(`.currentFutureFixed${capitalizeFirstLetter(financialType)}`).disabled = false;
     document.querySelector(`.currentPastFixed${capitalizeFirstLetter(financialType)}`).disabled = false;
@@ -157,9 +157,9 @@ const registerTransactions = async (apiUrl, financialType, selectInputs, monthsT
         } catch (error) {
             console.log(error)
         }
-        
+
     }
-    
+
 }
 
 const getMonthIndex = (month) => {
@@ -193,7 +193,7 @@ const createPayload = (financialType, selectInputs, month, dueDate) => {
                 listMonth: {
                     [financialType]: selectInputs[financialType],
                     value: selectInputs.value,
-                    dueDate, 
+                    dueDate,
                     paymentMethod: selectInputs.paymentMethod
                 }
             }
@@ -208,13 +208,18 @@ const createPayload = (financialType, selectInputs, month, dueDate) => {
 }
 
 const currentMonthTransactionRegistration = async (financialType) => {
+    const apiURL = `${window.apiURL}/auth/${financialType}s`;
     const buttonAddTransaction = document.querySelector(`.add-${financialType}`);
     buttonAddTransaction.setAttribute('data-dismis', 'modal');
 
     const payload = generateMonthlyDataPayload(financialType);
 
     try {
-
+        await window.registerItem(apiURL, payload)
+            .then(() => {
+                window[`add${capitalizeFirstLetter(financialType)}`].add = { request: true }
+            })
+            document.querySelector(`.add-${financialType}-modal-form`).reset();
     } catch (error) {
         console.log(error)
     }
@@ -231,7 +236,7 @@ const generateMonthlyDataPayload = (financialType) => {
     const currentYear = generateDateCall.year;
 
     const generatePortugueseDate = generatePortugueseDateFormatTransaction(dueDate);
-    
+
 
     const payload = {
         user: {
@@ -260,7 +265,7 @@ const generateMonthlyDataPayload = (financialType) => {
 const generateDateForTransaction = (date) => {
     const dateReplace = date.replace(/-/g, '$').split('$');
 
-    let fixedMonth = Number(dateReplace[1] -1);
+    let fixedMonth = Number(dateReplace[1] - 1);
     let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
 
     const monthDateSelected = newDate.toLocaleDateString('pt-br', {
