@@ -79,4 +79,19 @@ window.paymentMethod = [
     }
 ]
 
+window.months = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro'
+]
+
 window.apiURL = 'http://localhost:3000';
