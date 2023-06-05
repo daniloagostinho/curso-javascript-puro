@@ -95,3 +95,5 @@ window.months = [
 ]
 
 window.apiURL = 'http://localhost:3000';
+window.addIncome = {};
+window.addExpense = {};

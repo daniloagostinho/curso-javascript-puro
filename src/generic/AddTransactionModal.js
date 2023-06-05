@@ -118,6 +118,7 @@ const verifyFieldFillTransaction = (financialType, transactionDetails) => {
 }
 
 const registerFixedTransaction = async (financialType) => {
+    console.log(`.add-${financialType}-modal-form`)
     const selectInputs = selectInputsDom(financialType);
     const apiUrl = `${window.apiURL}/auth/${financialType}s`;
 
@@ -133,6 +134,15 @@ const registerFixedTransaction = async (financialType) => {
         await registerTransactions(apiUrl, financialType, selectInputs, pastAndCurrentMonths)
     }
 
+    clearForm(financialType);
+}
+
+const clearForm = (financialType) => {
+    window[`add${capitalizeFirstLetter(financialType)}`].add = {request: true};
+    document.querySelector(`.add-${financialType}-modal-form`).reset();
+    document.querySelector(`.currentFutureFixed${capitalizeFirstLetter(financialType)}`).disabled = false;
+    document.querySelector(`.currentPastFixed${capitalizeFirstLetter(financialType)}`).disabled = false;
+    document.querySelector(`.add-${financialType}`).setAttribute('data-dismiss', 'modal');
 }
 
 const currentMonthTransactionRegistration = async (financialType) => {
