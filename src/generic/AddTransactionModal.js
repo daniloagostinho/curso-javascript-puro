@@ -118,7 +118,6 @@ const verifyFieldFillTransaction = (financialType, transactionDetails) => {
 }
 
 const registerFixedTransaction = async (financialType) => {
-    console.log(`.add-${financialType}-modal-form`)
     const selectInputs = selectInputsDom(financialType);
     const apiUrl = `${window.apiURL}/auth/${financialType}s`;
 
@@ -237,7 +236,6 @@ const generateMonthlyDataPayload = (financialType) => {
 
     const generatePortugueseDate = generatePortugueseDateFormatTransaction(dueDate);
 
-
     const payload = {
         user: {
             title: selectInputs.user,
@@ -292,7 +290,6 @@ const generatePortugueseDateFormatTransaction = (date) => {
     const monthDateSelected = newDate.toLocaleDateString('pt-br', {
         month: 'long'
     })
-
 
     let indexMonthCurrent = getMonthIndex(monthDateSelected);
 
