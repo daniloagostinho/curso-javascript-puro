@@ -134,7 +134,7 @@ const registerFixedTransaction = async (financialType) => {
         await registerTransactions(apiUrl, financialType, selectInputs, pastAndCurrentMonths)
     }
 
-    clearForm(financialType);
+    clearForm(financialType)
 }
 
 const clearForm = (financialType) => {
@@ -144,11 +144,6 @@ const clearForm = (financialType) => {
     document.querySelector(`.currentPastFixed${capitalizeFirstLetter(financialType)}`).disabled = false;
     document.querySelector(`.add-${financialType}`).setAttribute('data-dismiss', 'modal');
 }
-
-const currentMonthTransactionRegistration = async (financialType) => {
-    console.log('currentMonthTransactionRegistration -->> ')
-}
-
 
 const registerTransactions = async (apiUrl, financialType, selectInputs, monthsToRegister) => {
     const dateReplace = selectInputs.dueDate.replace(/-/g, '$').split('$')
@@ -210,4 +205,91 @@ const createPayload = (financialType, selectInputs, month, dueDate) => {
     }
 
     return payload
+}
+
+const currentMonthTransactionRegistration = async (financialType) => {
+    const buttonAddTransaction = document.querySelector(`.add-${financialType}`);
+    buttonAddTransaction.setAttribute('data-dismis', 'modal');
+
+    const payload = generateMonthlyDataPayload(financialType);
+
+    try {
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
+const generateMonthlyDataPayload = (financialType) => {
+    const selectInputs = selectInputsDom(financialType);
+    const dueDate = document.querySelector(`.dueDate${capitalizeFirstLetter(financialType)}`).value;
+    const generateDateCall = generateDateForTransaction(dueDate);
+
+    const monthSelected = generateDateCall.month;
+    const currentYear = generateDateCall.year;
+
+    const generatePortugueseDate = generatePortugueseDateFormatTransaction(dueDate);
+    
+
+    const payload = {
+        user: {
+            title: selectInputs.user,
+            month: {
+                title: monthSelected,
+                year: currentYear,
+                listMonth: {
+                    [financialType]: selectInputs[financialType],
+                    value: selectInputs.value,
+                    dueDate: generatePortugueseDate,
+                    paymentMethod: selectInputs.paymentMethod
+                }
+            }
+        }
+    }
+
+    if (financialType === 'expense') {
+        payload.user.month.listMonth.category = selectInputs.category;
+    }
+
+    return payload;
+
+}
+
+const generateDateForTransaction = (date) => {
+    const dateReplace = date.replace(/-/g, '$').split('$');
+
+    let fixedMonth = Number(dateReplace[1] -1);
+    let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
+
+    const monthDateSelected = newDate.toLocaleDateString('pt-br', {
+        month: 'long'
+    })
+
+    let formattedDateString = capitalizeFirstLetter(monthDateSelected)
+
+    const year = newDate.getFullYear();
+
+    return {
+        month: formattedDateString,
+        year: year
+    }
+
+}
+
+const generatePortugueseDateFormatTransaction = (date) => {
+    const dateReplace = date.replace(/-/g, '$').split('$');
+
+    let fixedMonth = Number(dateReplace[1] - 1);
+    let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
+
+    const monthDateSelected = newDate.toLocaleDateString('pt-br', {
+        month: 'long'
+    })
+
+
+    let indexMonthCurrent = getMonthIndex(monthDateSelected);
+
+    return new Date(dateReplace[0], indexMonthCurrent, dateReplace[2]);
 }
