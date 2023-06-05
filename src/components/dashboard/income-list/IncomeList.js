@@ -8,6 +8,9 @@ class IncomeList extends HTMLElement {
     }
 
     connectedCallback() {
+        setTimeout(() => {
+            fetchFinancialRecords('income');
+        }, 1000);
     }
 }
 

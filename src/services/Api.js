@@ -50,3 +50,13 @@ window.registerItem = (url, data) => {
         }
     })
 }
+
+window.fetchRecords = (url, month, year, user) => {
+    return fetch(url, {
+        headers: {
+            'month': month,
+            'year': year,
+            'user': user
+        }
+    })
+}
