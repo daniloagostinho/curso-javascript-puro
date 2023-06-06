@@ -100,3 +100,4 @@ window.addExpense = {};
 window.currentMonth;
 window.incomeArray;
 window.expenseArray;
+window.itemsPerPage = 3;

@@ -41,7 +41,7 @@ const fetchFinancialRecords = async (financialType) => {
     window.fetchRecords(`${window.apiURL}${endpoint}`, capitalizeFirstLetter(selectedMonth), isSelectedYear, user)
         .then(response => response.json())
         .then(response => {
-           
+
             let financialList = [];
 
             if (response.result.length === 0) {
@@ -50,7 +50,7 @@ const fetchFinancialRecords = async (financialType) => {
                 response.result.forEach(record => {
                     financialList.push(record.user.month.listMonth)
                 })
-                
+
                 domElements.searchBlock.style.display = 'block';
                 domElements.selectFilterCategory.style.display = 'block';
                 domElements.selectFilterRange.style.display = 'block';
@@ -100,7 +100,7 @@ const initializeTable = (financialType) => {
         const headerRow = document.createElement('tr');
         const titlesTable = financialType === 'income' ?
             ['Receita', 'Valor', 'Data de Entrada', 'Id', 'Método de pagamento', 'Ações'] :
-            ['Despesa', 'Categoria', 'Valor', 'Data de Vencimento', 'Id',, 'Status', 'Ações']
+            ['Despesa', 'Categoria', 'Valor', 'Data de Vencimento', 'Id', , 'Status', 'Ações']
 
         titlesTable.forEach(title => {
             const headerCell = document.createElement('th');
@@ -135,5 +135,102 @@ const initializeTable = (financialType) => {
 }
 
 const buildPagination = (financialType, financialList) => {
+    const pagination = document.querySelector(`.my-pagination-${financialType}`);
+
+    const paginationHTML = createPagination(financialType);
+
+    pagination.innerHTML = paginationHTML;
+
+   const pageLinks = pagination.querySelectorAll('.page-item');
+
+   const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
+   const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
+
+   if (financialList.length <= window.itemsPerPage || financialList.length === 1) {
+        nexItems.disabled = true;
+   }
+
+    updateTableRows(financialType, financialList);
+}
+
+
+const currencyValue = (value) => {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(value)
+}
+
+const updateTableRows = (financialType, financialList) => {
+    let tableContainerClass = financialType === 'income' ? '.table-container-incomes' : '.table-container-expenses';
+
+    let tbody = document.querySelector(`${tableContainerClass} tbody`);
+    tbody.innerHTML = '';
+
+    const options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }
+
+    console.log(financialList)
+
+    financialList.forEach(item => {
+        const tr = document.createElement('tr');
+        const expiredClass = item.expired ? 'expired' : 'not-expired';
+
+        if (financialType === 'income') {
+            tr.innerHTML = `
+                <td>${item.income}</td>
+                <td>${currencyValue(item.value)}</td>
+                <td>${new Date(item.dueDate).toLocaleDateString('pt-BR', options)}</td>
+                <td>${item.paymentMethod}</td>
+                <td class="hide-id-column">${item._id}</td>
+                <td>
+                    <img class="image" src="${item.actions[0]}" />
+                    <img class="image" src="${item.actions[1]}" />
+                </td>
+            `;
+
+            console.log(tr)
+        } else {
+            tr.innerHTML = `
+                <td>${item.expense}</td>
+                <td>${item.category}</td>
+                <td>${currencyValue(item.value)}</td>
+                <td>${new Date(item.dueDate).toLocaleDateString('pt-BR', options)}</td>
+                <td class="hide-id-column">${item._id}</td>
+                <td>
+                    <img class="image" src="${item.actions[0]}" />
+                    <img class="image" src="${item.actions[1]}" />
+                </td>
+            `;
+        }
+
+        tbody.appendChild(tr)
+    })
+
+}
+
+const createPagination = (financialType) => {
+    const prevButtonClass = `prev${capitalizeFirstLetter(financialType)}`;
+    const nextButtonClass = `next${capitalizeFirstLetter(financialType)}`;
+
+    const paginationHTML = `
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button type="button" class="btn btn-outline-dark page-link ${prevButtonClass}" disabled>
+                    Anterior
+                </button>
+            </li>
+            <li class="page-item">
+                <button type="button" class="btn btn-outline-dark page-link ${nextButtonClass}">
+                    Próximo
+                </button>
+            </li>
+        </ul>
+    `;
+
+    return paginationHTML;
 
 }
