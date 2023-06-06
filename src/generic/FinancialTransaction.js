@@ -150,7 +150,47 @@ const buildPagination = (financialType, financialList) => {
         nexItems.disabled = true;
    }
 
-    updateTableRows(financialType, financialList);
+    updateTableRows(financialType, paginateItems(financialList, window.itemsPerPage, window.currentPage));
+
+
+    for (const pageLink of pageLinks) {
+        pageLink.addEventListener('click', event => {
+            event.preventDefault();
+
+           const clickedLink = event.target.closest('.page-link');
+
+
+           if (clickedLink && removeSpaces(clickedLink.textContent) === 'Anterior') {
+                window.currentPage--;
+                nexItems.disabled = false;
+           } else if (clickedLink && removeSpaces(clickedLink.textContent) === 'Próximo') {
+                window.currentPage++;
+                prevItems.disabled = false;
+           }
+
+           const nextPageData = paginateItems(financialList, window.itemsPerPage, window.currentPage);
+
+           if (nextPageData.length === 0) {
+                clickedLink.disabled = true;
+                return;
+           }
+
+           updateTableRows(financialType, nextPageData)
+
+           if (window.currentPage === 1) {
+                prevItems.disabled = true;
+           } else {
+                prevItems.disabled = false;
+           }
+
+           if (window.currentPage === Math.ceil(financialList.length / window.itemsPerPage)) {
+                nexItems.disabled = true;
+           } else {
+                nexItems.disabled = false;
+           }
+
+        })
+    }
 }
 
 
@@ -233,4 +273,13 @@ const createPagination = (financialType) => {
 
     return paginationHTML;
 
+}
+
+const paginateItems = (financialList, itemsPerPage, currentPage) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return financialList.slice(startIndex, startIndex + itemsPerPage)
+}
+
+const removeSpaces = (value) => {
+    return value.replace(/\s/g, '')
 }
