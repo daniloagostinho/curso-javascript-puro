@@ -58,9 +58,82 @@ const fetchFinancialRecords = async (financialType) => {
                 domElements.registerBlock.style.display = 'none';
                 domElements.spinnerContainer.style.display = 'none';
 
-            }
-        })
+                if (financialType === 'income') {
+                    window.incomeArray = financialList;
+                } else {
+                    window.expenseArray = financialList;
 
+                    financialList.forEach(item => {
+                        item.expired = isExpenseExpired(item.dueDate)
+                    })
+                }
+
+                // TODO
+                // updateTotalBalance(financialList, financialType)
+            }
+
+            if (financialList.length === 0) {
+                // clearTable(financialType);
+            } else {
+                initializeTable(financialType);
+                buildPagination(financialType, financialList)
+            }
+
+        })
 
 }
 
+
+const initializeTable = (financialType) => {
+    let table = document.querySelector(`.table-container-${financialType}s .table`);
+
+    if (!table) {
+        table = document.createElement('table');
+        table.classList.add('table');
+        document.querySelector(`.table-container-${financialType}s thead`);
+    }
+
+    let thead = document.querySelector(`.table-container-${financialType}s thead`);
+
+    if (!thead) {
+        thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const titlesTable = financialType === 'income' ?
+            ['Receita', 'Valor', 'Data de Entrada', 'Id', 'Método de pagamento', 'Ações'] :
+            ['Despesa', 'Categoria', 'Valor', 'Data de Vencimento', 'Id',, 'Status', 'Ações']
+
+        titlesTable.forEach(title => {
+            const headerCell = document.createElement('th');
+            headerCell.textContent = title;
+
+            if (title === 'Id') {
+                headerCell.classList.add('hide-id-column');
+            }
+
+            headerRow.appendChild(headerCell)
+        })
+
+        thead.appendChild(headerRow);
+        table.appendChild(thead)
+
+    }
+
+    let tbody = document.querySelector(`.table-container-${financialType}s tbody`);
+
+    if (!tbody) {
+        tbody = document.createElement('tbody');
+
+        table.appendChild(tbody);
+    }
+
+    // TODO
+    // tbody.addEventListener('click', event => {
+    //     if(event.target.tagName === 'IMG') {}
+    // })
+
+    document.querySelector(`.table-container-${financialType}s`).appendChild(table);
+}
+
+const buildPagination = (financialType, financialList) => {
+
+}
