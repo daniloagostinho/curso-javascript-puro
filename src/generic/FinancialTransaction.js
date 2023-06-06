@@ -293,3 +293,25 @@ const createCheckAddFinancial = (financialType) => {
         }
     })
 }
+
+const searchFinancialRecords = (event, financialType) => {
+    const noResult = document.querySelector(`.no-result-${financialType}s`);
+    const pagination = document.querySelector(`.my-pagination-${financialType}`);
+    const searchTerm = event.target.value.toLowerCase();
+    const tableHead = document.querySelector(`.table-container-${financialType}s .table thead`);
+
+    let financialArray;
+
+    if (financialType === 'income') {
+        financialArray = window.incomeArray;
+    } else {
+        financialArray = window.expenseArray;
+    }
+
+    const filteredArray = financialArray.filter(item => {
+        const text = item[financialType].toLowerCase();
+        return text.includes(searchTerm)
+    })
+
+    console.log('filteredArray -->>> ', filteredArray)
+}
