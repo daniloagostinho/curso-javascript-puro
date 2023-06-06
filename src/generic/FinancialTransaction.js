@@ -283,3 +283,13 @@ const paginateItems = (financialList, itemsPerPage, currentPage) => {
 const removeSpaces = (value) => {
     return value.replace(/\s/g, '')
 }
+
+const createCheckAddFinancial = (financialType) => {
+    window[`add${capitalizeFirstLetter(financialType)}`] = new Proxy({}, {
+        set: function (target, property, value) {
+            fetchFinancialRecords(financialType);
+
+            target[property] = value;
+        }
+    })
+}

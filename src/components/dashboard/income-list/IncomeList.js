@@ -14,6 +14,8 @@ class IncomeList extends HTMLElement {
     }
 }
 
+createCheckAddFinancial('income');
+
 if ('customElements' in window) {
     customElements.define('app-income-list', IncomeList)
 }
