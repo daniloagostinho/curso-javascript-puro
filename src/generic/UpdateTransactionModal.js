@@ -4,8 +4,6 @@ const createCheckUpdate = (financialType) => {
             console.log(value)
             fillFormTransaction(financialType, value);
 
-            generateUpdatePayload('income');
-
             target[property] = value;
         }
     })
@@ -87,7 +85,7 @@ const selectUpdateInputsDom = (financialType) => {
 
 const generateUpdatePayload = (financialType) => {
     const selectedInputs = selectUpdateInputsDom(financialType);
-    const genaretePortuguseData = generatePortugueseDateFormatTransaction(selectedInputs.dueDate);
+    const genaretePortugueseData = generatePortugueseDateFormatTransaction(selectedInputs.dueDate);
     const dateSelected = generateDateForTransaction(selectedInputs.dueDate);
 
     const valueUpdateInput = document.querySelector(`.valueUpdate${capitalizeFirstLetter(financialType)}`).value;
@@ -97,7 +95,39 @@ const generateUpdatePayload = (financialType) => {
     const valueDialogUpdate = parseFloat(numericValue).toFixed(2);
     console.log(valueDialogUpdate);
 
+    const payload = {
+        user: {
+            title: selectedInputs.user,
+            month: {
+                title: dateSelected.month,
+                year: dateSelected.year,
+                listMonth: {
+                    ...financialType === 'income' ? { income: selectedInputs.income, paymentMethod: selectedInputs.paymentMethod } :
+                    { expense: selectedInputs.expense, category: selectedInputs.category },
+                    value: parseFloat(valueDialogUpdate).toFixed(2),
+                    dueDate: genaretePortugueseData,
+                    ...financialType === 'income' ? {paymentMethod: selectedInputs.paymentMethod} : {}
 
-    
+                }
+            }
+        }
+    }
+
+    return payload;
 
 }
+
+const updateTransaction = async (financialType) => {
+    // TODO
+    const url = `${window.apiURL}/update/${financialType}s/` + window[`${financialType}Id`];
+    const payload = generateUpdatePayload(financialType);
+
+    try {
+        await window.updateRecords(url, payload)
+            .then(response => response.json())
+            .then(response => console.log(response))
+    } catch (error) {
+        console.log(error)
+    }
+
+} 

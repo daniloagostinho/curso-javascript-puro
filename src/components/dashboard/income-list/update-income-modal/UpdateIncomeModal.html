@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="value">Valor</label>
                         <input type="text" class="form-control valueUpdateIncome" id="value" name="value"
-                            aria-describedby="value" />
+                            aria-describedby="value" oninput="formatCurrency(event, 'income')"/>
                     </div>
 
                     <div class="form-group">
@@ -34,7 +34,7 @@
 
                     <div class="form-group select-container-payment-method-update"></div>
    
-                    <button class="btn btn-primary btn-block" data-dismiss="modal">Atualizar Receita</button>
+                    <button class="btn btn-primary udpdate-income-modal btn-block" data-dismiss="modal" onclick="handleUpdateIncome(event)">Atualizar Receita</button>
                 </form>
             </div>
         </div>

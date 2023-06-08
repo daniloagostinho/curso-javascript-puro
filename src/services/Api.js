@@ -60,3 +60,11 @@ window.fetchRecords = (url, month, year, user) => {
         }
     })
 }
+
+window.updateRecords = (url, data) => {
+    return fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: { 'Content-type': 'application/json' }
+    })
+}

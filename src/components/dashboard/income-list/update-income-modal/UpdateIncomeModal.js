@@ -17,6 +17,12 @@ class UpdateIncomeModal extends HTMLElement {
 
 createCheckUpdate('income');
 
+const handleUpdateIncome = (event) => {
+    event.preventDefault();
+
+    updateTransaction('income');
+}
+
 if ('customElements' in window) {
     customElements.define('app-update-income-modal', UpdateIncomeModal)
 }
