@@ -104,3 +104,6 @@ window.itemsPerPage = 3;
 window.currentPage = 1;
 window.filteredFincialArray = [];
 window.incomeSave = {};
+window.incomeId;
+window.typeIncomeSelected;
+window.typeExpenseSelected;

@@ -15,6 +15,8 @@ class UpdateIncomeModal extends HTMLElement {
     }
 }
 
+createCheckUpdate('income');
+
 if ('customElements' in window) {
     customElements.define('app-update-income-modal', UpdateIncomeModal)
 }
