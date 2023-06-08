@@ -384,3 +384,13 @@ const captureClickedActionForType = (urlImage, item, financialType) => {
         }
     }
 }
+
+const createCheckRequestUpdateFinancial = (financialType) => {
+    window[`updateRequest${capitalizeFirstLetter(financialType)}`] = new Proxy({}, {
+        set: function (target, property, value) {
+            fetchFinancialRecords(financialType);
+
+            target[property] = value;
+        }
+    })
+}

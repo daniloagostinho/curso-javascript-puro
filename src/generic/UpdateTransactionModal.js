@@ -125,7 +125,11 @@ const updateTransaction = async (financialType) => {
     try {
         await window.updateRecords(url, payload)
             .then(response => response.json())
-            .then(response => console.log(response))
+            .then(() => {
+               window[`updateRequest${capitalizeFirstLetter(financialType)}`].add = {
+                    update: true
+               }
+            })
     } catch (error) {
         console.log(error)
     }

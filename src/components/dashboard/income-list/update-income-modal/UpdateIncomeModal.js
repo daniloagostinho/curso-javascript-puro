@@ -16,6 +16,7 @@ class UpdateIncomeModal extends HTMLElement {
 }
 
 createCheckUpdate('income');
+createCheckRequestUpdateFinancial('income');
 
 const handleUpdateIncome = (event) => {
     event.preventDefault();

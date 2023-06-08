@@ -107,3 +107,4 @@ window.incomeSave = {};
 window.incomeId;
 window.typeIncomeSelected;
 window.typeExpenseSelected;
+window.updateRequestIncome = {};
