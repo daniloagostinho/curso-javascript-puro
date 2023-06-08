@@ -52,3 +52,32 @@ const updateSelectType = (financialType, optionSelected) => {
             }
         }
 }
+
+const selectUpdateInputsDom = (financialType) => {
+    const income = document.querySelector('.income-update-category').value;
+    const value = document.querySelector(`.valueUpdate${capitalizeFirstLetter(financialType)}`).value;
+    const dueDate = document.querySelector(`.dueUpdate${capitalizeFirstLetter(financialType)}`).value;
+    const paymentMethod = financialType === 'income' ? document.querySelector('.income-update-payment-method-category').value : null;
+    const expense = financialType === 'expense' ? document.querySelector('.expenseUpdate').value: null;
+    const category = financialType === 'expense' ? document.querySelector('.expense-update-category').value: null;
+    const user = localStorage.getItem('user');
+
+    if (financialType === 'income') {
+        return {
+            income, 
+            value,
+            dueDate,
+            paymentMethod,
+            user
+        }
+    }
+
+    return {
+        expense,
+        category,
+        value,
+        dueDate,
+        user
+    }
+
+}
