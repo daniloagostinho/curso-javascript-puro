@@ -3,6 +3,9 @@ const createCheckUpdate = (financialType) => {
         set: function (target, property, value) {
             console.log(value)
             fillFormTransaction(financialType, value);
+
+            generateUpdatePayload('income');
+
             target[property] = value;
         }
     })
@@ -79,5 +82,22 @@ const selectUpdateInputsDom = (financialType) => {
         dueDate,
         user
     }
+
+}
+
+const generateUpdatePayload = (financialType) => {
+    const selectedInputs = selectUpdateInputsDom(financialType);
+    const genaretePortuguseData = generatePortugueseDateFormatTransaction(selectedInputs.dueDate);
+    const dateSelected = generateDateForTransaction(selectedInputs.dueDate);
+
+    const valueUpdateInput = document.querySelector(`.valueUpdate${capitalizeFirstLetter(financialType)}`).value;
+
+    const valueWithoutSymbol = valueUpdateInput.replace(/[^\d,]/g, '');
+    const numericValue = valueWithoutSymbol.replace(',', '.');
+    const valueDialogUpdate = parseFloat(numericValue).toFixed(2);
+    console.log(valueDialogUpdate);
+
+
+    
 
 }
