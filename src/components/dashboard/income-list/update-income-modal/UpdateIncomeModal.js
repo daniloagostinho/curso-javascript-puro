@@ -8,6 +8,10 @@ class UpdateIncomeModal extends HTMLElement {
     }
 
     connectedCallback() {
+        setTimeout(() => {
+            createSelectElement('income', 'update', '.select-update-container-income', 'Receita', window.typeIncome, 12);
+            createSelectElement('income', 'update-payment-method', '.select-container-payment-method-update', 'Método de pagamento', window.paymentMethod, 9);
+        }, 1000);
     }
 }
 

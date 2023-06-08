@@ -370,3 +370,17 @@ const searchFinancialRecords = (event, financialType) => {
     }
 
 }
+
+const captureClickedActionForType = (urlImage, item, financialType) => {
+    if (urlImage.includes('edit.png')) {
+        const dialogUpdate = document.querySelector(`.update-${financialType}-modal`);
+        dialogUpdate.click();
+        window[`${financialType}Save`].add = item;
+    } else {
+        if (financialType === 'income') {
+            removeFinancialRecord(item.id, 'income');
+        } else {
+            removeFinancialRecord(item.id, 'expense');
+        }
+    }
+}
