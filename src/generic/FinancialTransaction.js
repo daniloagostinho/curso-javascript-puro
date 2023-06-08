@@ -60,9 +60,11 @@ const fetchFinancialRecords = async (financialType) => {
 
                 if (financialType === 'income') {
                     window.incomeArray = financialList;
+                    window.filteredFincialArray = financialList;
                 } else {
                     window.expenseArray = financialList;
-
+                    window.filteredFincialArray = financialList;
+                    
                     financialList.forEach(item => {
                         item.expired = isExpenseExpired(item.dueDate)
                     })
@@ -76,7 +78,7 @@ const fetchFinancialRecords = async (financialType) => {
                 // clearTable(financialType);
             } else {
                 initializeTable(financialType);
-                buildPagination(financialType, financialList)
+                buildPagination(financialType)
             }
 
         })
@@ -134,7 +136,7 @@ const initializeTable = (financialType) => {
     document.querySelector(`.table-container-${financialType}s`).appendChild(table);
 }
 
-const buildPagination = (financialType, financialList) => {
+const buildPagination = (financialType) => {
     const pagination = document.querySelector(`.my-pagination-${financialType}`);
 
     const paginationHTML = createPagination(financialType);
@@ -146,11 +148,11 @@ const buildPagination = (financialType, financialList) => {
    const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
    const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
-   if (financialList.length <= window.itemsPerPage || financialList.length === 1) {
+   if (window.filteredFincialArray.length <= window.itemsPerPage || window.filteredFincialArray.length === 1) {
         nexItems.disabled = true;
    }
 
-    updateTableRows(financialType, paginateItems(financialList, window.itemsPerPage, window.currentPage));
+   updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
 
 
     for (const pageLink of pageLinks) {
@@ -168,7 +170,7 @@ const buildPagination = (financialType, financialList) => {
                 prevItems.disabled = false;
            }
 
-           const nextPageData = paginateItems(financialList, window.itemsPerPage, window.currentPage);
+           const nextPageData = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
 
            if (nextPageData.length === 0) {
                 clickedLink.disabled = true;
@@ -183,7 +185,7 @@ const buildPagination = (financialType, financialList) => {
                 prevItems.disabled = false;
            }
 
-           if (window.currentPage === Math.ceil(financialList.length / window.itemsPerPage)) {
+           if (window.currentPage === Math.ceil(window.filteredFincialArray.length / window.itemsPerPage)) {
                 nexItems.disabled = true;
            } else {
                 nexItems.disabled = false;
@@ -276,6 +278,7 @@ const createPagination = (financialType) => {
 }
 
 const paginateItems = (financialList, itemsPerPage, currentPage) => {
+    console.log('financialList -->> ', financialList);
     const startIndex = (currentPage - 1) * itemsPerPage;
     return financialList.slice(startIndex, startIndex + itemsPerPage)
 }
@@ -300,18 +303,46 @@ const searchFinancialRecords = (event, financialType) => {
     const searchTerm = event.target.value.toLowerCase();
     const tableHead = document.querySelector(`.table-container-${financialType}s .table thead`);
 
+
     let financialArray;
 
     if (financialType === 'income') {
         financialArray = window.incomeArray;
+        window.filteredFincialArray = window.incomeArray;;
     } else {
         financialArray = window.expenseArray;
+        window.filteredFincialArray = window.expenseArray;
     }
 
-    const filteredArray = financialArray.filter(item => {
+    window.filteredFincialArray = financialArray.filter(item => {
         const text = item[financialType].toLowerCase();
         return text.includes(searchTerm)
     })
 
-    console.log('filteredArray -->>> ', filteredArray)
+    if (window.filteredFincialArray.length > 0) {
+        noResult.style.display = 'none';
+        pagination.style.display = 'block';
+        tableHead.style.display = 'table-header-group';
+
+        const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+        updateTableRows(financialType, paginateArray);
+
+        const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
+
+        if (window.filteredFincialArray.length <= window.itemsPerPage * window.currentPage) {
+            nexItems.disabled = true;
+        } else {
+            nexItems.disabled = false;
+        }
+        
+    } else {
+        noResult.style.display = 'block';
+        tableHead.style.display = 'none';
+        pagination.style.display = 'none';
+
+        const tableBody = document.querySelector(`.table-container-${financialType}s .table tbody`);
+
+        tableBody.innerHTML = '';
+    }
+
 }
