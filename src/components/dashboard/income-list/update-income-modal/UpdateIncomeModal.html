@@ -1,0 +1,40 @@
+<button type="button" class="btn modal btn-primary update-income-modal" data-toggle="modal"
+    data-target="#updateIncomeModal" style="display: none"></button>
+
+<!-- Modal -->
+<div class="modal update-income-modal fade" id="updateIncomeModal" tabindex="-1" aria-labelledby="updateIncomeModal"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateIncomeModal">
+                    Atualizar receita
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form class="update-income-modal-form">
+                    <div class="form-group select-update-container-income"></div>
+                    <div class="form-group select-container-payment-method-update"></div>
+
+                    <div class="form-group">
+                        <label for="value">Valor</label>
+                        <input type="text" class="form-control valueUpdateIncome" id="value" name="value"
+                            aria-describedby="value" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dueUpdateIncome">Data de Entrada</label>
+                        <input type="date" class="form-control dueUpdateIncome" id="dueUpdateIncome"
+                            name="dueUpdateIncome" aria-describedby="dueUpdateIncome" />
+                    </div>
+
+                    <button class="btn btn-primary btn-block" data-dismiss="modal">Atualizar Receita</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

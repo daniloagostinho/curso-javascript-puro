@@ -64,7 +64,7 @@ const fetchFinancialRecords = async (financialType) => {
                 } else {
                     window.expenseArray = financialList;
                     window.filteredFincialArray = financialList;
-                    
+
                     financialList.forEach(item => {
                         item.expired = isExpenseExpired(item.dueDate)
                     })
@@ -128,10 +128,38 @@ const initializeTable = (financialType) => {
         table.appendChild(tbody);
     }
 
-    // TODO
-    // tbody.addEventListener('click', event => {
-    //     if(event.target.tagName === 'IMG') {}
-    // })
+    tbody.addEventListener('click', event => {
+
+        if(event.target.tagName === 'IMG') {
+            const tr = event.target.closest('tr');
+            console.log(tr.children)
+            
+            const urlImage = event.target.getAttribute('src');
+
+            let item;
+
+            if (financialType === 'income') {
+                item = {
+                    income: tr.children[0].textContent,
+                    value: tr.children[1].textContent,
+                    dueDate: tr.children[2].textContent,
+                    paymentMethod: tr.children[3].textContent,
+                    id: tr.children[4].textContent
+                }
+
+            } else {
+                item = {
+                    expense: tr.children[0].textContent,
+                    category: tr.children[1].textContent,
+                    value: tr.children[2].textContent,
+                    dueDate: tr.children[3].textContent,
+                    id: tr.children[4].textContent
+                }
+            }
+
+            captureClickedActionForType(urlImage, item, financialType);
+        }
+    })
 
     document.querySelector(`.table-container-${financialType}s`).appendChild(table);
 }
@@ -143,53 +171,53 @@ const buildPagination = (financialType) => {
 
     pagination.innerHTML = paginationHTML;
 
-   const pageLinks = pagination.querySelectorAll('.page-item');
+    const pageLinks = pagination.querySelectorAll('.page-item');
 
-   const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
-   const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
+    const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
+    const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
-   if (window.filteredFincialArray.length <= window.itemsPerPage || window.filteredFincialArray.length === 1) {
+    if (window.filteredFincialArray.length <= window.itemsPerPage || window.filteredFincialArray.length === 1) {
         nexItems.disabled = true;
-   }
+    }
 
-   updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
+    updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
 
 
     for (const pageLink of pageLinks) {
         pageLink.addEventListener('click', event => {
             event.preventDefault();
 
-           const clickedLink = event.target.closest('.page-link');
+            const clickedLink = event.target.closest('.page-link');
 
 
-           if (clickedLink && removeSpaces(clickedLink.textContent) === 'Anterior') {
+            if (clickedLink && removeSpaces(clickedLink.textContent) === 'Anterior') {
                 window.currentPage--;
                 nexItems.disabled = false;
-           } else if (clickedLink && removeSpaces(clickedLink.textContent) === 'Próximo') {
+            } else if (clickedLink && removeSpaces(clickedLink.textContent) === 'Próximo') {
                 window.currentPage++;
                 prevItems.disabled = false;
-           }
+            }
 
-           const nextPageData = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+            const nextPageData = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
 
-           if (nextPageData.length === 0) {
+            if (nextPageData.length === 0) {
                 clickedLink.disabled = true;
                 return;
-           }
+            }
 
-           updateTableRows(financialType, nextPageData)
+            updateTableRows(financialType, nextPageData)
 
-           if (window.currentPage === 1) {
+            if (window.currentPage === 1) {
                 prevItems.disabled = true;
-           } else {
+            } else {
                 prevItems.disabled = false;
-           }
+            }
 
-           if (window.currentPage === Math.ceil(window.filteredFincialArray.length / window.itemsPerPage)) {
+            if (window.currentPage === Math.ceil(window.filteredFincialArray.length / window.itemsPerPage)) {
                 nexItems.disabled = true;
-           } else {
+            } else {
                 nexItems.disabled = false;
-           }
+            }
 
         })
     }
@@ -215,8 +243,6 @@ const updateTableRows = (financialType, financialList) => {
         year: 'numeric'
     }
 
-    console.log(financialList)
-
     financialList.forEach(item => {
         const tr = document.createElement('tr');
         const expiredClass = item.expired ? 'expired' : 'not-expired';
@@ -234,7 +260,6 @@ const updateTableRows = (financialType, financialList) => {
                 </td>
             `;
 
-            console.log(tr)
         } else {
             tr.innerHTML = `
                 <td>${item.expense}</td>
@@ -278,7 +303,6 @@ const createPagination = (financialType) => {
 }
 
 const paginateItems = (financialList, itemsPerPage, currentPage) => {
-    console.log('financialList -->> ', financialList);
     const startIndex = (currentPage - 1) * itemsPerPage;
     return financialList.slice(startIndex, startIndex + itemsPerPage)
 }
@@ -334,7 +358,7 @@ const searchFinancialRecords = (event, financialType) => {
         } else {
             nexItems.disabled = false;
         }
-        
+
     } else {
         noResult.style.display = 'block';
         tableHead.style.display = 'none';
