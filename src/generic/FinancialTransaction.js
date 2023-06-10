@@ -46,6 +46,7 @@ const fetchFinancialRecords = async (financialType) => {
 
             if (response.result.length === 0) {
                 domElements.registerBlock.style.display = 'block';
+                domElements.spinnerContainer.style.display = 'none';
             } else {
                 response.result.forEach(record => {
                     financialList.push(record.user.month.listMonth)
@@ -130,10 +131,10 @@ const initializeTable = (financialType) => {
 
     tbody.addEventListener('click', event => {
 
-        if(event.target.tagName === 'IMG') {
+        if (event.target.tagName === 'IMG') {
             const tr = event.target.closest('tr');
             console.log(tr.children)
-            
+
             const urlImage = event.target.getAttribute('src');
 
             let item;
@@ -399,6 +400,9 @@ const removeFinancialRecord = (id, financialType) => {
     const url = `${window.apiURL}/delete/${financialType}/${id}`;
     window.deleteFinancialRecord(url)
         .then(() => {
+            if (window.filteredFincialArray.length % window.itemsPerPage === 1) {
+                window.currentPage = Math.max(1, window.currentPage - 1);
+            }
             fetchFinancialRecords(financialType)
         })
 
