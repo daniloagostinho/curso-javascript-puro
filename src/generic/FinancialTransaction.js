@@ -394,3 +394,12 @@ const createCheckRequestUpdateFinancial = (financialType) => {
         }
     })
 }
+
+const removeFinancialRecord = (id, financialType) => {
+    const url = `${window.apiURL}/delete/${financialType}/${id}`;
+    window.deleteFinancialRecord(url)
+        .then(() => {
+            fetchFinancialRecords(financialType)
+        })
+
+}

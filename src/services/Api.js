@@ -68,3 +68,9 @@ window.updateRecords = (url, data) => {
         headers: { 'Content-type': 'application/json' }
     })
 }
+
+window.deleteFinancialRecord = (url) => {
+    return fetch(url, {
+        method: 'DELETE'
+    })
+}
