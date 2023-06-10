@@ -38,6 +38,8 @@ const fetchFinancialRecords = async (financialType) => {
 
     const isSelectedYear = window.yearSelected ? window.yearSelected : currentYear;
 
+    const table = document.querySelector(`.table-container-${financialType}s .table`);
+
     window.fetchRecords(`${window.apiURL}${endpoint}`, capitalizeFirstLetter(selectedMonth), isSelectedYear, user)
         .then(response => response.json())
         .then(response => {
@@ -47,6 +49,12 @@ const fetchFinancialRecords = async (financialType) => {
             if (response.result.length === 0) {
                 domElements.registerBlock.style.display = 'block';
                 domElements.spinnerContainer.style.display = 'none';
+                domElements.pagination.style.display = 'none';
+                domElements.searchBlock.style.display = 'none';
+                
+                if (table) {
+                    table.remove();
+                }
             } else {
                 response.result.forEach(record => {
                     financialList.push(record.user.month.listMonth)
@@ -133,7 +141,6 @@ const initializeTable = (financialType) => {
 
         if (event.target.tagName === 'IMG') {
             const tr = event.target.closest('tr');
-            console.log(tr.children)
 
             const urlImage = event.target.getAttribute('src');
 
