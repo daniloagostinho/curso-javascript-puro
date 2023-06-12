@@ -413,3 +413,49 @@ const removeFinancialRecord = (id, financialType) => {
         })
 
 }
+
+const createFilterSelectElement = (options, parentId, financialType, typeFilter) => {
+    console.log(options)
+    let select = document.createElement('select');
+
+    select.classList.add(`${financialType}-select-${typeFilter}`);
+
+    setTimeout(() => {
+        select.onchange = function () { filterFinancialRecords(financialType, typeFilter)}
+    }, 1000)
+
+    let option = document.createElement('option');
+    option.value = '';
+    option.text = 'Todos';
+    select.appendChild(option)
+
+    
+    for (let i = 0; i < options.length; i++) {
+        option = document.createElement('option');
+        option.value = options[i];
+        option.text = options[i];
+        select.appendChild(option)
+    }
+
+    let parent = document.getElementById(parentId);
+    parent.appendChild(select)
+    
+}
+
+const filterFinancialRecords = (financialType, typeFilter) => {
+    const noResult = document.querySelector(`.no-result-${financialType}s`);
+    const pagination = document.querySelector(`.my-pagination-${financialType}`);
+    const tableHead = document.querySelector(`.table-container-${financialType}s .table thead`);
+
+    let financialArray;
+
+    if (financialType === 'income') {
+        financialArray = window.incomeArray;
+    } else {
+        financialArray = window.expenseArray
+    }
+    
+    const categorySelectElement = document.querySelector(`select.${financialType}-select-category`);
+
+    console.log(financialArray)
+}

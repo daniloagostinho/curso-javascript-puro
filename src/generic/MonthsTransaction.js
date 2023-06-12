@@ -48,3 +48,17 @@ const prev = (financialType) => {
 
     fetchFinancialRecords('income');
 }
+
+const next = (financialType) => {
+    const monthsDate = window.monthsDate;
+
+    const nextDate = new Date(monthsDate.getFullYear(), monthsDate.getMonth() + 1, monthsDate.getDate());
+
+    const yearSelected = nextDate.getFullYear();
+
+    setDate(financialType, nextDate);
+
+    window.yearSelected = yearSelected;
+    fetchFinancialRecords('income');
+
+}

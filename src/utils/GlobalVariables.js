@@ -112,3 +112,17 @@ window.arrowLeft = 'src/assets/images/arrow-left.png';
 window.arrowRight = 'src/assets/images/arrow-right.png';
 window.monthsDate;
 window.yearSelected;
+window.optionsFilterIncome = [
+    'Salario', 
+    'Rendimentos autônomos',
+    'Rendimentos passivos',
+    'Bônus',
+    'Investimento',
+    'Empréstimo',
+    'Férias',
+    '13 Sálario',
+    'PLR',
+    'Aposentaria',
+    'Aluguel',
+    'Outros'
+]
