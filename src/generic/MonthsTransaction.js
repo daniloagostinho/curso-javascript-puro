@@ -34,3 +34,17 @@ const getCurrentDate = (financialType) => {
     const currentDate = new Date();
     setDate(financialType, currentDate)
 }
+
+const prev = (financialType) => {
+    const monthsDate = window.monthsDate;
+
+    const prevDate = new Date(monthsDate.getFullYear(), monthsDate.getMonth() -1, monthsDate.getDate());
+
+    const yearSelected = prevDate.getFullYear();
+
+    window.yearSelected = yearSelected;
+
+    setDate(financialType, prevDate);
+
+    fetchFinancialRecords('income');
+}
