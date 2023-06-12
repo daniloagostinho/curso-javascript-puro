@@ -1,0 +1,11 @@
+.text-month-income {
+    position: relative;
+    left: -15px;
+    font-weight: bold;
+}
+
+.container-display-income {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

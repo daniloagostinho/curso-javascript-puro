@@ -27,7 +27,6 @@ const selectDomElements = (financialType) => {
 }
 
 const fetchFinancialRecords = async (financialType) => {
-    window.currentMonth = 'junho';
     const domElements = selectDomElements(financialType);
     domElements.spinnerContainer.style.display = 'block';
 
