@@ -455,7 +455,28 @@ const filterFinancialRecords = (financialType, typeFilter) => {
         financialArray = window.expenseArray
     }
     
-    const categorySelectElement = document.querySelector(`select.${financialType}-select-category`);
+    const categorySelectElement = document.querySelector(`select.${financialType}-select-category`).value.toLowerCase();
 
-    console.log(financialArray)
+    let filteredArray = [];
+
+    if (typeFilter === 'category') {
+        filteredArray = financialArray.filter(item => {
+            const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
+            console.log('categorySelectElement -->> ', categorySelectElement)
+            return text === categorySelectElement || categorySelectElement === '';
+        })
+    }
+
+  const arrayIsEmpty = filteredArray.length > 0;
+  const noResultStyle = arrayIsEmpty ? 'none' : 'block';
+  noResult.style.display = noResultStyle;
+  pagination.style.display = arrayIsEmpty ? 'block' : 'none';
+  tableHead.style.display = arrayIsEmpty ? 'table-header-group' : 'none';
+
+
+  const tableBody = document.querySelector(`.table-container-${financialType}s .table tbody`);
+  tableBody.innerHTML = '';
+
+  
+
 }
