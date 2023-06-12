@@ -477,6 +477,22 @@ const filterFinancialRecords = (financialType, typeFilter) => {
   const tableBody = document.querySelector(`.table-container-${financialType}s .table tbody`);
   tableBody.innerHTML = '';
 
-  
 
+  if (arrayIsEmpty) {
+    const paginateArray = paginateItems(filteredArray, window.itemsPerPage, window.currentPage);
+    updateTableRows(financialType, paginateArray);
+
+    const totalPageCount = Math.ceil(filteredArray.length / window.itemsPerPage);
+    const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
+    const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
+
+    if (window.currentPage >= totalPageCount) {
+        prevItems.disabled = true;
+        nexItems.disabled = true;
+    } else {
+        nexItems.disabled = false;
+        prevItems.disabled = true;
+    }
+    
+  }
 }
