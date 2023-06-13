@@ -457,17 +457,15 @@ const filterFinancialRecords = (financialType, typeFilter) => {
     
     const categorySelectElement = document.querySelector(`select.${financialType}-select-category`).value.toLowerCase();
 
-    let filteredArray = [];
-
     if (typeFilter === 'category') {
-        filteredArray = financialArray.filter(item => {
+        window.filteredFincialArray = financialArray.filter(item => {
             const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
             console.log('categorySelectElement -->> ', categorySelectElement)
             return text === categorySelectElement || categorySelectElement === '';
         })
     }
 
-  const arrayIsEmpty = filteredArray.length > 0;
+  const arrayIsEmpty = window.filteredFincialArray.length > 0;
   const noResultStyle = arrayIsEmpty ? 'none' : 'block';
   noResult.style.display = noResultStyle;
   pagination.style.display = arrayIsEmpty ? 'block' : 'none';
@@ -479,10 +477,10 @@ const filterFinancialRecords = (financialType, typeFilter) => {
 
 
   if (arrayIsEmpty) {
-    const paginateArray = paginateItems(filteredArray, window.itemsPerPage, window.currentPage);
+    const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
     updateTableRows(financialType, paginateArray);
 
-    const totalPageCount = Math.ceil(filteredArray.length / window.itemsPerPage);
+    const totalPageCount = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
     const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
     const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
