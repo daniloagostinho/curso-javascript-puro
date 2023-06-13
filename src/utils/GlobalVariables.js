@@ -132,4 +132,6 @@ window.optionsFilterRange = [
     'R$ 1.000,00 - R$ 5.000,00',
     'R$ 5.000,00 - R$ 10.000,00',
     'R$ 10.000,00 - R$ 100.000,00'
-]
+];
+
+window.totalPages;

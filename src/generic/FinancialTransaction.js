@@ -86,7 +86,30 @@ const fetchFinancialRecords = async (financialType) => {
                 // clearTable(financialType);
             } else {
                 initializeTable(financialType);
-                buildPagination(financialType)
+                buildPagination(financialType);
+
+                window.totalPages = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
+
+                if (window.currentPage > window.totalPages) {
+                    window.currentPage = window.totalPages;
+                }
+            
+                updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
+
+                const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
+                const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
+
+                if (window.currentPage === 1) {
+                    prevItems.disabled = true;
+                } else {
+                    prevItems.disabled = false;
+                }
+
+                if (window.currentPage === window.totalPages) {
+                    nexItems.disabled = true;
+                } else {
+                    nexItems.disabled = false;
+                }
             }
 
         })
@@ -455,12 +478,31 @@ const filterFinancialRecords = (financialType, typeFilter) => {
     }
 
     const categorySelectElement = document.querySelector(`select.${financialType}-select-category`).value.toLowerCase();
+    const rangeSelectElement = document.querySelector(`select.${financialType}-select-range`).value;
+
+    let min = 0;
+    let max = Infinity;
 
     if (typeFilter === 'category') {
         window.filteredFincialArray = financialArray.filter(item => {
             const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
             return text === categorySelectElement || categorySelectElement === '';
         })
+    } else {
+        if (rangeSelectElement !== '') {
+            const rangeValues = rangeSelectElement.split('-').map(value => Number(value.trim().replace(/R\$\s|\.|,00/g, '')));
+
+            min = rangeValues[0];
+            max = rangeValues[1];
+
+        }
+
+        window.filteredFincialArray = financialArray.filter(item => {
+            console.log(item);
+            const value = Number(item.value);
+            return value >= min && value <= max;
+        })
+
     }
 
     const arrayIsEmpty = window.filteredFincialArray.length > 0;
