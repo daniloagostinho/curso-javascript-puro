@@ -10,7 +10,8 @@ class IncomeList extends HTMLElement {
     connectedCallback() {
         setTimeout(() => {
             fetchFinancialRecords('income');
-            createFilterSelectElement(window.optionsFilterIncome, 'select-category-income', 'income', 'category')
+            createFilterSelectElement(window.optionsFilterIncome, 'select-category-income', 'income', 'category');
+            createFilterSelectElement(window.optionsFilterRange, 'select-range-income', 'income', 'range');
         }, 1000);
     }
 }

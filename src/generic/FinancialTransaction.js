@@ -50,7 +50,7 @@ const fetchFinancialRecords = async (financialType) => {
                 domElements.spinnerContainer.style.display = 'none';
                 domElements.pagination.style.display = 'none';
                 domElements.searchBlock.style.display = 'none';
-                
+
                 if (table) {
                     table.remove();
                 }
@@ -415,13 +415,12 @@ const removeFinancialRecord = (id, financialType) => {
 }
 
 const createFilterSelectElement = (options, parentId, financialType, typeFilter) => {
-    console.log(options)
     let select = document.createElement('select');
 
     select.classList.add(`${financialType}-select-${typeFilter}`);
 
     setTimeout(() => {
-        select.onchange = function () { filterFinancialRecords(financialType, typeFilter)}
+        select.onchange = function () { filterFinancialRecords(financialType, typeFilter) }
     }, 1000)
 
     let option = document.createElement('option');
@@ -429,7 +428,7 @@ const createFilterSelectElement = (options, parentId, financialType, typeFilter)
     option.text = 'Todos';
     select.appendChild(option)
 
-    
+
     for (let i = 0; i < options.length; i++) {
         option = document.createElement('option');
         option.value = options[i];
@@ -439,7 +438,7 @@ const createFilterSelectElement = (options, parentId, financialType, typeFilter)
 
     let parent = document.getElementById(parentId);
     parent.appendChild(select)
-    
+
 }
 
 const filterFinancialRecords = (financialType, typeFilter) => {
@@ -454,43 +453,40 @@ const filterFinancialRecords = (financialType, typeFilter) => {
     } else {
         financialArray = window.expenseArray
     }
-    
+
     const categorySelectElement = document.querySelector(`select.${financialType}-select-category`).value.toLowerCase();
 
     if (typeFilter === 'category') {
         window.filteredFincialArray = financialArray.filter(item => {
             const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
-            console.log('categorySelectElement -->> ', categorySelectElement)
             return text === categorySelectElement || categorySelectElement === '';
         })
     }
 
-  const arrayIsEmpty = window.filteredFincialArray.length > 0;
-  const noResultStyle = arrayIsEmpty ? 'none' : 'block';
-  noResult.style.display = noResultStyle;
-  pagination.style.display = arrayIsEmpty ? 'block' : 'none';
-  tableHead.style.display = arrayIsEmpty ? 'table-header-group' : 'none';
+    const arrayIsEmpty = window.filteredFincialArray.length > 0;
+    const noResultStyle = arrayIsEmpty ? 'none' : 'block';
+    noResult.style.display = noResultStyle;
+    pagination.style.display = arrayIsEmpty ? 'block' : 'none';
+    tableHead.style.display = arrayIsEmpty ? 'table-header-group' : 'none';
 
+    const tableBody = document.querySelector(`.table-container-${financialType}s .table tbody`);
+    tableBody.innerHTML = '';
 
-  const tableBody = document.querySelector(`.table-container-${financialType}s .table tbody`);
-  tableBody.innerHTML = '';
+    if (arrayIsEmpty) {
+        const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+        updateTableRows(financialType, paginateArray);
 
+        const totalPageCount = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
+        const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
+        const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
-  if (arrayIsEmpty) {
-    const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
-    updateTableRows(financialType, paginateArray);
+        if (window.currentPage >= totalPageCount) {
+            prevItems.disabled = true;
+            nexItems.disabled = true;
+        } else {
+            nexItems.disabled = false;
+            prevItems.disabled = true;
+        }
 
-    const totalPageCount = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
-    const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
-    const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
-
-    if (window.currentPage >= totalPageCount) {
-        prevItems.disabled = true;
-        nexItems.disabled = true;
-    } else {
-        nexItems.disabled = false;
-        prevItems.disabled = true;
     }
-    
-  }
 }
