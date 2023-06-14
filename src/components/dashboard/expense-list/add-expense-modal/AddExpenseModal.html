@@ -1,0 +1,64 @@
+<button type="button" class="btn modal btn-primary add-expense-modal" data-toggle="modal"
+    data-target="#modalDialogAddexpense" style="display: none"></button>
+
+<!-- Modal -->
+<div class="modal add-expense-modal fade" id="modalDialogAddexpense" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Adicionar Despesa
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="add-expense-modal-form">
+                    <div class="form-group">
+                        <label for="expense">Despesa</label>
+                        <input type="text" class="form-control expense" id="expense" name="expense"
+                            aria-describedby="expense" autocomplete="off" />
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-group">
+                        <!-- INCLUIR SELECT AQUI DINAMICAMENTE COM JS -->
+                        <div class="form-group select-container-expense"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="value">Valor</label>
+                        <input type="text" class="form-control" id="value" name="value" aria-describedby="value"
+                            autocomplete="off" oninput="formatCurrency(event, 'expense')" />
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDateExpense">Data de Vencimento</label>
+                        <input type="date" class="form-control dueDateExpense" id="dueDateExpense" name="dueDateExpense"
+                            aria-describedby="dueDateExpense" formControlName="dueDateExpense" />
+                    </div>
+
+                    <div class="form-group teste">
+                        <div class="form-check">
+                            <input class="form-check-input currentFutureFixedExpense" value="currentFutureFixedExpense"
+                                name="currentFutureFixedExpense" id="currentFutureFixedExpense" type="checkbox"
+                                value="currentFutureFixedExpense" id="currentFutureFixedExpense" />
+                            <label class="form-check-label" for="currentFutureFixedExpense"> Despesa fixa para o mês
+                                atual e períodos futuros </label>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input currentPastFixedExpense" type="checkbox"
+                            value="currentPastFixedIncome" name="currentPastFixedIncome" id="currentPastFixedIncome" />
+                        <label class="form-check-label" for="currentPastFixedIncome"> Despesa fixa para todos os mêses
+                            do ano </label>
+                    </div>
+
+                    <button class="btn btn-primary btn-block add-expense" data-dismiss="modal">Adicionar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

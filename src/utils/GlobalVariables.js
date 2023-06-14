@@ -135,3 +135,39 @@ window.optionsFilterRange = [
 ];
 
 window.totalPages;
+
+window.typeExpense = [
+    {
+        name: 'Contas a pagar'
+    },
+    {
+        name: 'Cartão de crédito'
+    },
+    {
+        name: 'Empréstimo pessoais'
+    },
+    {
+        name: 'Financiamento de veículos',
+    },
+    {
+        name: 'Linhas de crédito',
+    },
+    {
+        name: 'Empréstimo estudantis',
+    },
+    {
+        name: 'Casa'
+    },
+    {
+        name: 'Saúde',
+    },
+    {
+        name: 'Entretenimento',
+    },
+    {
+        name: 'Estudo',
+    },
+    {
+        name: 'Outros',
+    }
+]

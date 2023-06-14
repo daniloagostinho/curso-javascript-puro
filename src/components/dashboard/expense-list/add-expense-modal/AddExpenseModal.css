@@ -1,0 +1,8 @@
+label {
+    float: left;
+}
+
+.add-expense {
+    position: relative;
+    top: 10px;
+}
