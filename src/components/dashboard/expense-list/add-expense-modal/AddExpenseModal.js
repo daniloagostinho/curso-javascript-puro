@@ -15,6 +15,23 @@ class AddExpenseModal extends HTMLElement {
     }
 }
 
+const handleAddExpense = (event) => {
+    event.preventDefault();
+
+    const expenseDetails = createObjtransactionDetails('expense');
+    const buttonAddExpense = document.querySelector('.add-expense');
+
+    if (!verifyFieldFillTransaction('expense', expenseDetails)) {
+        buttonAddExpense.removeAttribute('data-dismiss');
+        alert('Preencha os campos vazios!');
+        return;
+    }
+
+    buttonAddExpense.setAttribute('data-dismiss', 'modal');
+    expenseDetails.currentFutureFixed || expenseDetails.currentPastFixed ? registerFixedTransaction('expense') : currentMonthTransactionRegistration('expense');
+
+}
+
 if ('customElements' in window) {
     customElements.define('app-add-expense-modal', AddExpenseModal)
 }

@@ -8,8 +8,15 @@ class ExpenseList extends HTMLElement {
     }
 
     connectedCallback() {
+        setTimeout(() => {
+            fetchFinancialRecords('expense');
+            createFilterSelectElement(window.optionsFilterExpense, 'select-category-expense', 'expense', 'category');
+            createFilterSelectElement(window.optionsFilterRange, 'select-range-expense', 'expense', 'range');
+        }, 1000)
     }
 }
+
+createCheckAddFinancial('expense');
 
 if ('customElements' in window) {
     customElements.define('app-expense-list', ExpenseList)

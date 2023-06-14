@@ -171,3 +171,17 @@ window.typeExpense = [
         name: 'Outros',
     }
 ]
+
+window.optionsFilterExpense = [
+    'Contas a pagar',
+    'Cartão de crédito',
+    'Empréstimo pessoais',
+    'Financiamento de veículos',
+    'Linhas de crédito',
+    'Empréstimo estudantis',
+    'Casa',
+    'Saúde',
+    'Entretenimento',
+    'Estudo',
+    'Outros'
+]

@@ -297,6 +297,7 @@ const updateTableRows = (financialType, financialList) => {
                 <td>${currencyValue(item.value)}</td>
                 <td>${new Date(item.dueDate).toLocaleDateString('pt-BR', options)}</td>
                 <td class="hide-id-column">${item._id}</td>
+                <td class="${expiredClass}">${item.expired ? 'Vencidada': 'Não vencida'}</td>
                 <td>
                     <img class="image" src="${item.actions[0]}" />
                     <img class="image" src="${item.actions[1]}" />
@@ -556,4 +557,11 @@ const clearTable = (financialType) => {
     selectElements.selectFilterCategory.style.display = 'none';
     selectElements.selectFilterRange.style.display = 'none';
 
+}
+
+const isExpenseExpired = (dueDate) => {
+    const currentDate = new Date();
+    const expenseDate = new Date(dueDate);
+
+    return currentDate > expenseDate;
 }

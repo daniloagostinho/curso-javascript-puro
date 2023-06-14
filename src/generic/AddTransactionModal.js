@@ -22,7 +22,7 @@ const createObjtransactionDetails = (financialType) => {
         transactionDetail.paymentMethod = paymentMethod;
     } else if (financialType === 'expense') {
         transactionDetail.expense = expense;
-        transactionDetail.catrgory = category
+        transactionDetail.category = category
     }
 
     return transactionDetail;
@@ -36,6 +36,7 @@ const selectInputsDom = (financialType) => {
     const dueDate = document.querySelector(`.dueDate${capitalizeFirstLetter(financialType)}`).value;
     const category = financialType === 'expense' ? document.querySelector('.expense-add-category').value : null;
     const currentFutureFixed = document.querySelector(`.currentFutureFixed${capitalizeFirstLetter(financialType)}`).checked;
+    const expense = financialType === 'expense' ? document.querySelector(`.expense`).value : null;
     const currentPastFixed = document.querySelector(`.currentPastFixed${capitalizeFirstLetter(financialType)}`).checked;
     const user = localStorage.getItem('user');
 
@@ -51,6 +52,7 @@ const selectInputsDom = (financialType) => {
 
     if (financialType === 'expense') {
         result.category = category;
+        result.expense = expense;
     } else if (financialType === 'income') {
         result.paymentMethod = paymentMethod;
     }
