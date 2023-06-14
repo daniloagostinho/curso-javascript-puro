@@ -83,7 +83,7 @@ const fetchFinancialRecords = async (financialType) => {
             }
 
             if (financialList.length === 0) {
-                // clearTable(financialType);
+                clearTable(financialType);
             } else {
                 initializeTable(financialType);
                 buildPagination(financialType);
@@ -531,4 +531,29 @@ const filterFinancialRecords = (financialType, typeFilter) => {
         }
 
     }
+}
+
+const clearTable = (financialType) => {
+    const table = document.querySelector(`.table-container-${financialType}s .table`);
+    let tbody = document.querySelector(`.table-container-${financialType}s .table tbody`);
+
+    if (tbody) {
+        table.removeChild(tbody);
+        tbody = null;
+    }
+
+    const selectElements  = selectDomElements(financialType);
+    selectElements.pagination.style.display = 'none';
+
+    const thead = document.querySelector(`.table-container-${financialType}s .table thead`);
+
+    if (thead) {
+        table.removeChild(thead);
+    }
+
+
+    selectElements.searchBlock.style.display = 'none';
+    selectElements.selectFilterCategory.style.display = 'none';
+    selectElements.selectFilterRange.style.display = 'none';
+
 }
