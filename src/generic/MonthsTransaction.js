@@ -22,7 +22,7 @@ const setDate = (financialType, date) => {
     let day = date.getDate();
     selectedMonth = selectedMonth < 10 ? '0' + selectedMonth : selectedMonth;
 
-    document.querySelector(`.dueDate${capitalizeFirstLetter(financialType)}`).value = `${selectedYear}-${selectedMonth}-${day}`
+    document.querySelector(`.dueDate${capitalizeFirstLetter(financialType)}`).value = `${selectedYear}-${selectedMonth}-${day}`;
     const prefix = financialType === 'income' ? 'income' : 'expense';
 
     document.querySelector(`.text-month-${prefix}`).innerHTML = letterDateString;

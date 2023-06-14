@@ -108,7 +108,7 @@ const fetchFinancialRecords = async (financialType) => {
                 if (window.currentPage === window.totalPages) {
                     nexItems.disabled = true;
                 } else {
-                    nexItems.disabled = false;
+                    nexItems.disabled = false; 
                 }
             }
 
