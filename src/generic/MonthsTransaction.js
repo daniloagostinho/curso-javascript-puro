@@ -46,7 +46,14 @@ const prev = (financialType) => {
 
     setDate(financialType, prevDate);
 
+    if (financialType === 'income') {
+        setDate('expense', prevDate)
+    } else if (financialType === 'expense') {
+        setDate('income', prevDate)
+    }
+
     fetchFinancialRecords('income');
+    fetchFinancialRecords('expense');
 }
 
 const next = (financialType) => {
@@ -58,7 +65,14 @@ const next = (financialType) => {
 
     setDate(financialType, nextDate);
 
+    if (financialType === 'income') {
+        setDate('expense', nextDate)
+    } else if (financialType === 'expense') {
+        setDate('income', nextDate)
+    }
+
     window.yearSelected = yearSelected;
     fetchFinancialRecords('income');
+    fetchFinancialRecords('expense');
 
 }
