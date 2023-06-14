@@ -187,7 +187,7 @@ const createPayload = (financialType, selectInputs, month, dueDate) => {
         user: {
             title: selectInputs.user,
             month: {
-                title: month,
+                title: capitalizeFirstLetter(month),
                 year: currentYear,
                 listMonth: {
                     [financialType]: selectInputs[financialType],

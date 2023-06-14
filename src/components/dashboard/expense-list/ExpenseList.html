@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <!-- INSERIR COMPONENTE <app-months-expenses></app-months-expenses> -->
+            <div class="block-expense-search" style="display: none;">
+                <br>
+                <strong>Encontrar Despesa:</strong>
+                <input matInput placeholder="Digite a despesa" />
+            </div>
+
+            <div id="select-category-expense"></div>
+            <div id="select-range-expense"></div>
+
+            <br>
+            <button color="dark" class="btn-default btn btn-add-expense btn-primary">
+                Adicionar Despesa
+            </button>
+            <div class="display"></div>
+
+            <div class="table-container-expenses table-responsive">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border-expense" style="width: 7rem; height: 7rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-result-expenses" style="display: none;">
+                <div class="container">
+                    <div class="center">
+                        <span>Não foram encontrados itens na tabela..</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation example" class="my-pagination-expense" style="display: none;"></nav>
+
+            <div class="block-register-expenses" style="display: none;">
+                <div class="container">
+                    <div class="center">
+                        <span>Você ainda não cadastrou Despesas para esse mês.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

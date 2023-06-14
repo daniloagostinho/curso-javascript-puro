@@ -1,0 +1,39 @@
+.my-pagination-expense {
+    position: relative;
+    float: right;
+    right: 10px;
+    top: 80%;
+}
+
+.expired {
+    color: red;
+    font-weight: bold;
+    padding: 10x;
+}
+
+.not-expired {
+    color: green;
+    font-weight: bold;
+}
+
+.block-expense-search {
+    float: left;
+    margin-bottom: 30px;
+}
+
+#select-category-expense,
+#select-range-expense {
+    float: left;
+    position: relative;
+    top: 25px;
+    left: 10px;
+}
+
+#select-range-expense {
+    left: 20px;
+}
+
+#select-category-expense select,
+#select-range-expense select {
+    padding: 2px;
+}
