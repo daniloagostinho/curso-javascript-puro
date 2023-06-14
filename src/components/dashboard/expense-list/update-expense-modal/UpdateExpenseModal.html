@@ -1,0 +1,43 @@
+<button type="button" class="btn modal btn-primary update-expense-modal" data-toggle="modal"
+    data-target="#modalDialogAddUpdateexpenses" style="display: none"></button>
+
+<!-- Modal -->
+<div class="modal update-expense-modal fade" id="modalDialogAddUpdateexpenses" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Atualizar Despesa
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form class="update-expense-modal-form">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Despesa</label>
+                        <input type="text" class="form-control expenseUpdate" id="depesa" aria-describedby="expense" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group select-update-container-expense"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="value">Valor</label>
+                        <input type="text" class="form-control valueUpdateExpense" id="valor"
+                            aria-describedby="value" />
+                    </div>
+                    <div class="form-group">
+                        <label for="dueUpdateExpense">Data de Vencimento</label>
+                        <input type="date" class="form-control dueUpdateExpense" id="dataVencimento"
+                            aria-describedby="dueUpdateExpense" />
+                    </div>
+                    <button class="btn btn-primary btn-block" data-dismiss="modal">Atualizar Despesa</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

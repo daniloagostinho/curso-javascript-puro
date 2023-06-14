@@ -1,7 +1,6 @@
 const createCheckUpdate = (financialType) => {
     window[`${financialType}Save`] = new Proxy({}, {
         set: function (target, property, value) {
-            console.log(value)
             fillFormTransaction(financialType, value);
 
             target[property] = value;
@@ -31,17 +30,19 @@ const fillFormTransaction = (financialType, transactionValue) => {
         const { expense, category } = transactionValue;
 
         window.typeExpenseSelected = expense;
-        updateSelectType('category', category);
+        updateSelectType('expense', category);
         document.querySelector('.expenseUpdate').value = expense;
     }
 
     document.querySelector(`.valueUpdate${capitalizeFirstLetter(financialType)}`).value = value;
-    document.querySelector(`.${financialType === 'income' ? 'dueUpdateIncome' : 'dueUupdateExpense'}`).value = formattedDate;
+    document.querySelector(`.${financialType === 'income' ? 'dueUpdateIncome' : 'dueUpdateExpense'}`).value = formattedDate;
 }
 
 const updateSelectType = (financialType, optionSelected) => {
     const selectUpdate = financialType === 'payment-method' ? document.querySelector(`.select-container-payment-method-update > select`)
         : document.querySelector(`.select-update-container-${financialType} > select`);
+
+        console.log('financialType -->> ', financialType);
 
 
         for (let i = 0; i < selectUpdate.length; i++) {
