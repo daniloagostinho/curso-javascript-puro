@@ -17,6 +17,7 @@ class ExpenseList extends HTMLElement {
 }
 
 createCheckAddFinancial('expense');
+createCheckRequestUpdateFinancial('expense');
 
 if ('customElements' in window) {
     customElements.define('app-expense-list', ExpenseList)

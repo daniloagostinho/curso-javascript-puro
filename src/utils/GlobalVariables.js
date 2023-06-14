@@ -109,6 +109,7 @@ window.incomeId;
 window.typeIncomeSelected;
 window.typeExpenseSelected;
 window.updateRequestIncome = {};
+window.updateRequestExpense = {};
 window.arrowLeft = 'src/assets/images/arrow-left.png';
 window.arrowRight = 'src/assets/images/arrow-right.png';
 window.monthsDate;

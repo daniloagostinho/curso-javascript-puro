@@ -27,14 +27,14 @@
                     <div class="form-group">
                         <label for="value">Valor</label>
                         <input type="text" class="form-control valueUpdateExpense" id="valor"
-                            aria-describedby="value" />
+                            aria-describedby="value" oninput="formatCurrency(event, 'expense')" />
                     </div>
                     <div class="form-group">
                         <label for="dueUpdateExpense">Data de Vencimento</label>
                         <input type="date" class="form-control dueUpdateExpense" id="dataVencimento"
                             aria-describedby="dueUpdateExpense" />
                     </div>
-                    <button class="btn btn-primary btn-block" data-dismiss="modal">Atualizar Despesa</button>
+                    <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="handleUpdateExpenses(event)">Atualizar Despesa</button>
                 </form>
 
             </div>

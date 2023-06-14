@@ -16,6 +16,12 @@ class UpdateExpenseModal extends HTMLElement {
 
 createCheckUpdate('expense');
 
+const handleUpdateExpenses = (event) => {
+    event.preventDefault();
+
+    updateTransaction('expense');
+}
+
 if ('customElements' in window) {
     customElements.define('app-update-expense-modal', UpdateExpenseModal)
 }
