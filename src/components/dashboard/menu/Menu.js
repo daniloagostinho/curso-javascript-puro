@@ -88,8 +88,15 @@ const financialDataExtract = (financialType) => {
     document.querySelector(`.${financialType}s-extract`).style.display = 'block';
 
     const url = financialType === 'income' ? `${window.apiURL}/incomes/extract` : `${window.apiURL}/expenses/extract`;
+    const user = localStorage.getItem('user');
 
-    
+    window.getFinancialDataByDateRange(url, user)
+        .then(response => response.json())
+        .then(response => {
+            window[`clicked${capitalizeFirstLetter(financialType)}Extract`].add = {
+                data: response
+            }
+        })
 }
 
 if ('customElements' in window) {

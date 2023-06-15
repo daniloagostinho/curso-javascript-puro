@@ -74,3 +74,22 @@ window.deleteFinancialRecord = (url) => {
         method: 'DELETE'
     })
 }
+
+
+window.getFinancialDataByDateRange = (url, user, startDate, endDate) => {
+    let headers = {
+        'user': user
+    }
+
+    if (startDate) {
+        headers['startDate'] = startDate;
+    }
+
+    if (endDate) {
+        headers['endDate'] = endDate;
+    }
+
+    return fetch(url, {
+        headers
+    })
+}

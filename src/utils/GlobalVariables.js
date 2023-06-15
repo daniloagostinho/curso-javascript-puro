@@ -193,3 +193,5 @@ window.totalIncomes = {};
 window.totalExpenses = {};
 window.totalExpensesVariable;
 window.totalIncomesVariable;
+window.clickedIncomeExtract = {};
+window.clickedExpenseExtract = {};
