@@ -159,3 +159,15 @@ const createPaginationExtract = (financialType) => {
     `;
     return pagnationHTML;
 }
+
+const financialDataByDateRange = (user, startDate, endDate, financialType) => {
+    const url = financialType === 'income' ? 'incomes/extract' : 'expenses/extract';
+
+    window.getFinancialDataByDateRange(`${window.apiURL}/${url}`, user, startDate, endDate)
+        .then(response => response.json())
+        .then(response => {
+            window[`clicked${capitalizeFirstLetter(financialType)}Extract`].add = {
+                data: response
+            }
+        })
+}

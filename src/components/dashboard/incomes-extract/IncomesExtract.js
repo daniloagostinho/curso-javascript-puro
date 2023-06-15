@@ -15,6 +15,16 @@ class IncomesExtract extends HTMLElement {
 
 checkClickedExtract('income');
 
+const filterIncomes = (event) => {
+    event.preventDefault();
+
+    const user = localStorage.getItem('user');
+    const startDate = document.getElementById('startDateIncome').value;
+    const endDate = document.getElementById('endDateIncome').value;
+
+    financialDataByDateRange(user, startDate, endDate, 'income');
+}
+
 if ('customElements' in window) {
     customElements.define('app-incomes-extract', IncomesExtract)
 }
