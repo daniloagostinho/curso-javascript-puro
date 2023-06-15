@@ -68,10 +68,10 @@ const fetchFinancialRecords = async (financialType) => {
 
                 if (financialType === 'income') {
                     window.incomeArray = financialList;
-                    window.filteredFincialArray = financialList;
+                    window.filteredFincialArrayIncome = financialList;
                 } else {
                     window.expenseArray = financialList;
-                    window.filteredFincialArray = financialList;
+                    window.filteredFincialArrayExpense = financialList;
 
                     financialList.forEach(item => {
                         item.expired = isExpenseExpired(item.dueDate)
@@ -88,13 +88,13 @@ const fetchFinancialRecords = async (financialType) => {
                 initializeTable(financialType);
                 buildPagination(financialType);
 
-                window.totalPages = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
+                window.totalPages = Math.ceil(financialType === 'income' ? window.filteredFincialArrayIncome.length / window.itemsPerPage : window.filteredFincialArrayExpense.length / window.itemsPerPage);
 
                 if (window.currentPage > window.totalPages) {
                     window.currentPage = window.totalPages;
                 }
             
-                updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
+                updateTableRows(financialType, paginateItems(financialType === 'income' ? window.filteredFincialArrayIncome : window.filteredFincialArrayExpense, window.itemsPerPage, window.currentPage));
 
                 const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
                 const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
@@ -206,11 +206,11 @@ const buildPagination = (financialType) => {
     const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
     const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
-    if (window.filteredFincialArray.length <= window.itemsPerPage || window.filteredFincialArray.length === 1) {
+    if (financialType === 'income' ? window.filteredFincialArrayIncome.length <= window.itemsPerPage || window.filteredFincialArrayIncome.length === 1 : window.filteredFincialArrayExpense.length <= window.itemsPerPage || window.filteredFincialArrayExpense.length === 1) {
         nexItems.disabled = true;
     }
 
-    updateTableRows(financialType, paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage));
+    updateTableRows(financialType, paginateItems(financialType === 'income' ? window.filteredFincialArrayIncome : window.filteredFincialArrayExpense, window.itemsPerPage, window.currentPage));
 
 
     for (const pageLink of pageLinks) {
@@ -228,7 +228,7 @@ const buildPagination = (financialType) => {
                 prevItems.disabled = false;
             }
 
-            const nextPageData = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+            const nextPageData = paginateItems(financialType === 'income' ? window.filteredFincialArrayIncome : window.filteredFincialArrayExpense, window.itemsPerPage, window.currentPage);
 
             if (nextPageData.length === 0) {
                 clickedLink.disabled = true;
@@ -243,7 +243,7 @@ const buildPagination = (financialType) => {
                 prevItems.disabled = false;
             }
 
-            if (window.currentPage === Math.ceil(window.filteredFincialArray.length / window.itemsPerPage)) {
+            if (window.currentPage === Math.ceil(financialType === 'income' ? window.filteredFincialArrayIncome.length : window.filteredFincialArrayExpenselength / window.itemsPerPage)) {
                 nexItems.disabled = true;
             } else {
                 nexItems.disabled = false;
@@ -276,7 +276,6 @@ const updateTableRows = (financialType, financialList) => {
     financialList.forEach(item => {
         const tr = document.createElement('tr');
         const expiredClass = item.expired ? 'expired' : 'not-expired';
-
         if (financialType === 'income') {
             tr.innerHTML = `
                 <td>${item.income}</td>
@@ -334,6 +333,7 @@ const createPagination = (financialType) => {
 }
 
 const paginateItems = (financialList, itemsPerPage, currentPage) => {
+    console.log('financialList ---> ', financialList);
     const startIndex = (currentPage - 1) * itemsPerPage;
     return financialList.slice(startIndex, startIndex + itemsPerPage)
 }
@@ -363,28 +363,32 @@ const searchFinancialRecords = (event, financialType) => {
 
     if (financialType === 'income') {
         financialArray = window.incomeArray;
-        window.filteredFincialArray = window.incomeArray;;
+
+        window.filteredFincialArrayIncome = financialArray.filter(item => {
+            const text = item[financialType].toLowerCase();
+            return text.includes(searchTerm)
+        })    
     } else {
         financialArray = window.expenseArray;
-        window.filteredFincialArray = window.expenseArray;
+
+        window.filteredFincialArrayExpense = financialArray.filter(item => {
+            const text = item[financialType].toLowerCase();
+            return text.includes(searchTerm)
+        })    
     }
 
-    window.filteredFincialArray = financialArray.filter(item => {
-        const text = item[financialType].toLowerCase();
-        return text.includes(searchTerm)
-    })
 
-    if (window.filteredFincialArray.length > 0) {
+    if (window.filteredFincialArrayIncome.length > 0 || window.filteredFincialArrayExpense.length > 0) {
         noResult.style.display = 'none';
         pagination.style.display = 'block';
         tableHead.style.display = 'table-header-group';
 
-        const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+        const paginateArray = paginateItems(financialType === 'income' ? window.filteredFincialArrayIncome : window.filteredFincialArrayExpense, window.itemsPerPage, window.currentPage);
         updateTableRows(financialType, paginateArray);
 
         const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 
-        if (window.filteredFincialArray.length <= window.itemsPerPage * window.currentPage) {
+        if (financialType === 'income' ? window.filteredFincialArrayIncome.length <= window.itemsPerPage * window.currentPage : window.filteredFincialArrayExpense.length <= window.itemsPerPage * window.currentPage) {
             nexItems.disabled = true;
         } else {
             nexItems.disabled = false;
@@ -430,7 +434,7 @@ const removeFinancialRecord = (id, financialType) => {
     const url = `${window.apiURL}/delete/${financialType}/${id}`;
     window.deleteFinancialRecord(url)
         .then(() => {
-            if (window.filteredFincialArray.length % window.itemsPerPage === 1) {
+            if (financialType === 'income' ? window.filteredFincialArrayIncome.length % window.itemsPerPage === 1 : window.filteredFincialArrayExpense.length % window.itemsPerPage === 1) {
                 window.currentPage = Math.max(1, window.currentPage - 1);
             }
             fetchFinancialRecords(financialType)
@@ -485,10 +489,18 @@ const filterFinancialRecords = (financialType, typeFilter) => {
     let max = Infinity;
 
     if (typeFilter === 'category') {
-        window.filteredFincialArray = financialArray.filter(item => {
-            const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
-            return text === categorySelectElement || categorySelectElement === '';
-        })
+        if (financialType === 'income') {
+            window.filteredFincialArrayIncome = financialArray.filter(item => {
+                const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
+                return text === categorySelectElement || categorySelectElement === '';
+            })
+        } else {
+            window.filteredFincialArrayExpense = financialArray.filter(item => {
+                const text = financialType === 'income' ? item[financialType].toLowerCase() : item.category.toLowerCase();
+                return text === categorySelectElement || categorySelectElement === '';
+            })
+        }
+
     } else {
         if (rangeSelectElement !== '') {
             const rangeValues = rangeSelectElement.split('-').map(value => Number(value.trim().replace(/R\$\s|\.|,00/g, '')));
@@ -498,15 +510,24 @@ const filterFinancialRecords = (financialType, typeFilter) => {
 
         }
 
-        window.filteredFincialArray = financialArray.filter(item => {
-            console.log(item);
-            const value = Number(item.value);
-            return value >= min && value <= max;
-        })
+        if (financialType === 'income') {
+            window.filteredFincialArrayIncome = financialArray.filter(item => {
+                console.log(item);
+                const value = Number(item.value);
+                return value >= min && value <= max;
+            })
+        } else {
+            window.filteredFincialArrayExpense = financialArray.filter(item => {
+                console.log(item);
+                const value = Number(item.value);
+                return value >= min && value <= max;
+            })
+        }
+
 
     }
 
-    const arrayIsEmpty = window.filteredFincialArray.length > 0;
+    const arrayIsEmpty = financialType === 'income' ? window.filteredFincialArrayIncome.length > 0 : window.filteredFincialArrayExpense.length > 0;
     const noResultStyle = arrayIsEmpty ? 'none' : 'block';
     noResult.style.display = noResultStyle;
     pagination.style.display = arrayIsEmpty ? 'block' : 'none';
@@ -516,10 +537,10 @@ const filterFinancialRecords = (financialType, typeFilter) => {
     tableBody.innerHTML = '';
 
     if (arrayIsEmpty) {
-        const paginateArray = paginateItems(window.filteredFincialArray, window.itemsPerPage, window.currentPage);
+        const paginateArray = paginateItems(financialType === 'income' ? window.filteredFincialArrayIncome : window.filteredFincialArrayExpense, window.itemsPerPage, window.currentPage);
         updateTableRows(financialType, paginateArray);
 
-        const totalPageCount = Math.ceil(window.filteredFincialArray.length / window.itemsPerPage);
+        const totalPageCount = Math.ceil(financialType === 'income' ? window.filteredFincialArrayIncome.length : window.filteredFincialArrayExpense.length / window.itemsPerPage);
         const prevItems = document.querySelector(`.prev${capitalizeFirstLetter(financialType)}`);
         const nexItems = document.querySelector(`.next${capitalizeFirstLetter(financialType)}`);
 

@@ -102,7 +102,6 @@ window.incomeArray;
 window.expenseArray;
 window.itemsPerPage = 3;
 window.currentPage = 1;
-window.filteredFincialArray = [];
 window.incomeSave = {};
 window.expenseSave = {};
 window.incomeId;
@@ -186,4 +185,7 @@ window.optionsFilterExpense = [
     'Entretenimento',
     'Estudo',
     'Outros'
-]
+];
+
+window.filteredFincialArrayIncome = [];
+window.filteredFincialArrayExpense = [];
