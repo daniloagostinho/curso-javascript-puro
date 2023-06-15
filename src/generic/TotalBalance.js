@@ -17,6 +17,8 @@ const checkTotalBalance = (financialType) => {
         set: function(target, property, value) {
             getTotalBalance(value.total, financialType);
 
+            window[`total${capitalizeFirstLetter(financialType)}sVariable`] = value.total;
+
             target[property] = value;
         }
     })

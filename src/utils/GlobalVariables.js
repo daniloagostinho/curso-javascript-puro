@@ -191,3 +191,5 @@ window.filteredFincialArrayIncome = [];
 window.filteredFincialArrayExpense = [];
 window.totalIncomes = {};
 window.totalExpenses = {};
+window.totalExpensesVariable;
+window.totalIncomesVariable;

@@ -1,0 +1,9 @@
+.negativeBalance {
+    background-color: red;
+    color: #fff;
+}
+
+.positiveBalance {
+    background-color: green;
+    color: #fff;
+}
