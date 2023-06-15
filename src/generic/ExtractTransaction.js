@@ -27,5 +27,22 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
         document.querySelector(`.no-result-${financialType}-extract`).style.display = 'block';
         document.querySelector(`.my-pagination-${financialType}-extract`).style.display = 'none';
         document.querySelector(`.${financialType}-balance`).innerHTML = '';
+        return;
     }
+
+    const currentExtractArr = JSON.stringify(arr);
+
+    if (currentExtractArr === lastExtractArr) return;
+
+    const timeline = document.querySelector(`.my-timeline-${financialType}`);
+    timeline.innerHTML = '';
+
+    document.querySelector(`.my-timeline-${financialType}`).style.display = 'block';
+    document.querySelector(`.no-result-${financialType}-extract`).style.display = 'none';
+    document.querySelector(`.my-pagination-${financialType}-extract`).style.display = 'block';
+
+    const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+    document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
+    
 }
+
