@@ -189,3 +189,5 @@ window.optionsFilterExpense = [
 
 window.filteredFincialArrayIncome = [];
 window.filteredFincialArrayExpense = [];
+window.totalIncomes = {};
+window.totalExpenses = {};

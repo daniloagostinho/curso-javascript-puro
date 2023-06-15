@@ -54,6 +54,8 @@ const fetchFinancialRecords = async (financialType) => {
                 if (table) {
                     table.remove();
                 }
+
+                updateTotalBalance(financialList, financialType);
             } else {
                 response.result.forEach(record => {
                     financialList.push(record.user.month.listMonth)
@@ -78,8 +80,7 @@ const fetchFinancialRecords = async (financialType) => {
                     })
                 }
 
-                // TODO
-                // updateTotalBalance(financialList, financialType)
+                updateTotalBalance(financialList, financialType);
             }
 
             if (financialList.length === 0) {
@@ -333,7 +334,6 @@ const createPagination = (financialType) => {
 }
 
 const paginateItems = (financialList, itemsPerPage, currentPage) => {
-    console.log('financialList ---> ', financialList);
     const startIndex = (currentPage - 1) * itemsPerPage;
     return financialList.slice(startIndex, startIndex + itemsPerPage)
 }
