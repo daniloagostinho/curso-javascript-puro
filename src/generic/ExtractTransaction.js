@@ -9,6 +9,7 @@ const createHTMLElement = (tag, className, innerHTML = '') => {
 }
 
 const populateTransactionCards = (financialType, arr, arrFull) => {
+    console.log(arr)
     const options = {
         day: '2-digit',
         month: '2-digit',
@@ -45,7 +46,7 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
     document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
 
-   arr.result.forEach(transactionType => {
+   arr.forEach(transactionType => {
         const timelineItem = createHTMLElement('div', 'timeline-item');
         timelineItem.appendChild(createHTMLElement('div', 'my-line'));
         timelineItem.appendChild(createHTMLElement('div', 'my-dot'));
@@ -74,7 +75,7 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
 const checkClickedExtract = (financialType) => {
     window[`clicked${capitalizeFirstLetter(financialType)}Extract`] = new Proxy({}, {
         set: function (target, property, value) {
-            buildPaginationExtract(financialType, value);
+            buildPaginationExtract(financialType, value.data);
             target[property] = value;
         }
     })
@@ -82,5 +83,61 @@ const checkClickedExtract = (financialType) => {
 
 const buildPaginationExtract = (financialType, arr) => {
 
-    
+    const reverseArray = arr.result.reverse();
+
+    const pagination = document.querySelector(`.my-pagination-${financialType}-extract`);
+    const paginationHTML = createPaginationExtract(financialType);
+
+    pagination.innerHTML = paginationHTML;
+
+
+    const pageLinks = pagination.querySelectorAll(`.my-pagination-${financialType}-extract .page-item`);
+    const prevButton = document.querySelector(`.prev${financialType}Extract`)
+    const nextButton = document.querySelector(`.next${financialType}Extract`)
+
+    if (reverseArray.lentgh <= window.itemsPerPage) {
+        nextButton.disabled = true;
+    }
+
+    populateTransactionCards(financialType, paginateItems(reverseArray, window.itemsPerPage, window.currentPage), reverseArray);
+
+    for (const pageLink of pageLinks) {
+        pageLink.addEventListener('click', event => {
+            event.preventDefault();
+
+            const clickedLink = event.target.closest('.page-link');
+
+            if (clickedLink && clickedLink.textContent === 'Anterior') {
+                window.currentPage--;
+                nextButton.disabled = false;
+            } else if (clickedLink && clickedLink.textContent === 'Próximo') {
+                window.currentPage++;
+                prevButton.disabled = false;
+            }
+
+            const nextPageData = paginateItems(reverseArray, window.itemsPerPage, window.currentPage);
+
+            if (nextPageData.lentgh === 0) {
+                nextButton.disabled = true;
+                return;
+            }
+
+            populateTransactionCards(financialType, nextPageData, reverseArray);
+
+        })
+    }
+}
+
+const createPaginationExtract = (financialType) => {
+    let pagnationHTML = `
+        <ul class="pagination">
+            <li class="page-item">
+                <button type="button" class="btn btn-outline-dark page-link prev${financialType}Extract">Anterior</button>
+            </li>
+            <li class="page-item">
+                <button type="button" class="btn btn-outline-dark page-link next${financialType}Extract">Próximo</button>
+            </li>
+        </ul>
+    `;
+    return pagnationHTML;
 }
