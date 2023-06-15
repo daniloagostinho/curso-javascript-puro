@@ -18,7 +18,7 @@ const expenseLessThanIncome = () => {
 }
 
 const expenseGreaterThanIncome = () => {
-    return window.totalExpensesVariable > window.totalIncomesVariable;;
+    return window.totalExpensesVariable > window.totalIncomesVariable;
 }
 
 const expenseEqualIncome = () => {
@@ -30,7 +30,24 @@ const totalZeroBalance = () => {
 }
 
 const sumBalanceTotal = () => {
-    
+    let totalBalanceCard = document.querySelector('.total-balance-card');
+    let totalBalanceDisplay = document.querySelector('.total-balance');
+
+    if (expenseLessThanIncome()) {
+        totalBalanceDisplay.innerHTML = currencyValue(Math.abs(window.totalExpensesVariable - window.totalIncomesVariable));
+        totalBalanceCard.classList.add('positiveBalance');
+    } else if (expenseGreaterThanIncome()) {
+        totalBalanceDisplay.innerHTML = currencyValue(-(window.totalExpensesVariable - window.totalIncomesVariable));
+        totalBalanceCard.classList.remove('positiveBalance');
+        totalBalanceCard.classList.add('negativeBalance');
+    } else if (expenseEqualIncome()) {
+        totalBalanceDisplay.innerHTML = currencyValue(0);
+        totalBalanceCard.classList.remove('positiveBalance');
+        totalBalanceCard.classList.remove('negativeBalance');
+    } else if (totalZeroBalance()) {
+        totalBalanceCard.classList.remove('positiveBalance');
+        totalBalanceCard.classList.remove('negativeBalance');
+    }
 }
 
 if ('customElements' in window) {

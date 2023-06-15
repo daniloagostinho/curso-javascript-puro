@@ -19,6 +19,10 @@ const checkTotalBalance = (financialType) => {
 
             window[`total${capitalizeFirstLetter(financialType)}sVariable`] = value.total;
 
+            setTimeout(() => {
+                sumBalanceTotal();
+            }, 100)
+
             target[property] = value;
         }
     })
