@@ -13,6 +13,8 @@ class TotalIncomeBalance extends HTMLElement {
     }
 }
 
+checkTotalBalance('income');
+
 if ('customElements' in window) {
     customElements.define('app-total-income-balance', TotalIncomeBalance)
 }

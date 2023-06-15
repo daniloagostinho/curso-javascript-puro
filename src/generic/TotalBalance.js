@@ -8,7 +8,29 @@ const updateTotalBalance = (array, financialType) => {
 const sumValues = (accumulator, currentValue) => accumulator + Number(currentValue.value);
 
 const calculateTotal = (array) => {
-    console.log('array -->> ', array)
     const financialArray = array;
     return financialArray ? financialArray.reduce(sumValues, 0) : 0;
+}
+
+const checkTotalBalance = (financialType) => {
+    window[`total${capitalizeFirstLetter(financialType)}s`] = new Proxy({}, {
+        set: function(target, property, value) {
+            getTotalBalance(value.total, financialType);
+
+            target[property] = value;
+        }
+    })
+}
+
+
+const getTotalBalance = (totalBalance, financialType) => {
+    let element;
+
+    if (financialType === 'income') {
+        element = '.total-income-balance';
+    } else {
+        element = '.total-expense-balance';
+    }
+
+    document.querySelector(element).innerHTML = currencyValue(totalBalance);
 }
