@@ -195,3 +195,4 @@ window.totalExpensesVariable;
 window.totalIncomesVariable;
 window.clickedIncomeExtract = {};
 window.clickedExpenseExtract = {};
+window.lastExtractArr;

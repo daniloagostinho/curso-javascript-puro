@@ -31,8 +31,9 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     }
 
     const currentExtractArr = JSON.stringify(arr);
-
-    // if (currentExtractArr === lastExtractArr) return;
+    
+    if (currentExtractArr === window.lastExtractArr) return;
+    window.lastExtractArr = currentExtractArr;
 
     const timeline = document.querySelector(`.my-timeline-${financialType}`);
     timeline.innerHTML = '';
@@ -41,8 +42,8 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     document.querySelector(`.no-result-${financialType}-extract`).style.display = 'none';
     document.querySelector(`.my-pagination-${financialType}-extract`).style.display = 'block';
 
-    // const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
-    // document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
+    const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+    document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
 
    arr.result.forEach(transactionType => {
         const timelineItem = createHTMLElement('div', 'timeline-item');
@@ -73,8 +74,13 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
 const checkClickedExtract = (financialType) => {
     window[`clicked${capitalizeFirstLetter(financialType)}Extract`] = new Proxy({}, {
         set: function (target, property, value) {
-            populateTransactionCards(financialType, value.data)
+            buildPaginationExtract(financialType, value);
             target[property] = value;
         }
     })
+}
+
+const buildPaginationExtract = (financialType, arr) => {
+
+    
 }
