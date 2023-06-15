@@ -124,7 +124,25 @@ const buildPaginationExtract = (financialType, arr) => {
 
             populateTransactionCards(financialType, nextPageData, reverseArray);
 
+            if (window.currentPage === 1) {
+                prevButton.disabled = true;
+            } else {
+                prevButton.disabled = false;
+            }
+
+            if (window.currentPage === Math.ceil(arr.result.length / window.itemsPerPage)) {
+                nextButton.disabled = true;
+            } else {
+                nextButton.disabled = false;
+            }
+
         })
+    }
+
+    if (window.currentPage === 1) {
+        prevButton.disabled = true;
+    } else {
+        prevButton.disabled = false;
     }
 }
 
