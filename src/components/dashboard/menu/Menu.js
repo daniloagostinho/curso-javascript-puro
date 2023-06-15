@@ -46,8 +46,6 @@ const messageWelcome = () => {
 
 }
 
-
-
 const getImageUser = () => {
     const img = document.querySelector('.profile-img');
 
@@ -59,6 +57,39 @@ const getImageUser = () => {
             let url = 'data:image/jpg;base64, ' + response.image;
             img.src = url;
         })
+}
+
+const removeComponentsDashboard = () => {
+    const selectorComponents = [
+        '.total-income-component',
+        '.total-expense-component',
+        '.total-balance-component',
+        '.incomes-component',
+        '.expenses-component'
+    ];
+
+
+    selectorComponents.forEach(component => {
+        const element = document.querySelector(component);
+
+        if (element) {
+            element.style.display = 'none';
+        }
+    })
+}
+
+const financialDataExtract = (financialType) => {
+    if (financialType === 'income') {
+        removeComponentsDashboard();
+    } else {
+        removeComponentsDashboard();
+    }
+
+    document.querySelector(`.${financialType}s-extract`).style.display = 'block';
+
+    const url = financialType === 'income' ? `${window.apiURL}/incomes/extract` : `${window.apiURL}/expenses/extract`;
+
+    
 }
 
 if ('customElements' in window) {
