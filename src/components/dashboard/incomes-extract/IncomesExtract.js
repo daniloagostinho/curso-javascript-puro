@@ -13,6 +13,8 @@ class IncomesExtract extends HTMLElement {
     }
 }
 
+checkClickedExtract('income');
+
 if ('customElements' in window) {
     customElements.define('app-incomes-extract', IncomesExtract)
 }

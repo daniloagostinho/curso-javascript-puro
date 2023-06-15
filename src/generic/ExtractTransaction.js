@@ -20,7 +20,7 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     const dateLabel = financialType === 'income' ? 'Data de entrada' : 'Data de vencimento';
 
     // Verifica se array está vazio
-    if (!arr.lentgh) {
+    if (arr.lentgh === 0) {
         const timeline = document.querySelector(`.my-timeline-${financialType}`);
         timeline.innerHTML = '';
 
@@ -43,6 +43,15 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
 
     const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
     document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
+
     
 }
 
+const checkClickedExtract = (financialType) => {
+    window[`clicked${capitalizeFirstLetter(financialType)}Extract`] = new Proxy({}, {
+        set: function (target, property, value) {
+            populateTransactionCards(financialType, value.data)
+            target[property] = value;
+        }
+    })
+}
