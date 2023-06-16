@@ -82,9 +82,11 @@ const financialDataExtract = (financialType) => {
     if (financialType === 'income') {
         removeComponentsDashboard();
         removeComponentExpensesExtract();
+        removeChart();
     } else {
         removeComponentsDashboard();
         removeComponentIcomesExtract();
+        removeChart();
     }
 
     document.querySelector(`.${financialType}s-extract`).style.display = 'block';
@@ -109,9 +111,14 @@ const removeComponentExpensesExtract = () => {
     document.querySelector('.expenses-extract').style.display = 'none';
 }
 
+const removeChart = () => {
+    document.querySelector('.chart').style.display = 'none';
+}
+
 const showDashboard = () => {
     document.querySelector('.incomes-extract').style.display = 'none';
     document.querySelector('.expenses-extract').style.display = 'none';
+    document.querySelector('.chart').style.display = 'none';
 
     showComponentsDashboard();
 }
@@ -139,6 +146,14 @@ const showComponentsDashboard = () => {
 const logout = () => {
     localStorage.removeItem('token');
     navigateTo('/');
+}
+
+const showChart = () => {
+    removeComponentsDashboard();
+    removeComponentIcomesExtract();
+    removeComponentExpensesExtract();
+
+    document.querySelector('.chart').style.display = 'block';
 }
 
 if ('customElements' in window) {
