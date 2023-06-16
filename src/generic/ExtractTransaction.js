@@ -9,7 +9,6 @@ const createHTMLElement = (tag, className, innerHTML = '') => {
 }
 
 const populateTransactionCards = (financialType, arr, arrFull) => {
-    console.log(arr)
     const options = {
         day: '2-digit',
         month: '2-digit',
@@ -19,15 +18,15 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     const labelCategory = 'Categoria';
 
     const dateLabel = financialType === 'income' ? 'Data de entrada' : 'Data de vencimento';
-
     // Verifica se array está vazio
-    if (arr.lentgh === 0) {
+    if (arr.length === 0) {
         const timeline = document.querySelector(`.my-timeline-${financialType}`);
         timeline.innerHTML = '';
 
         document.querySelector(`.no-result-${financialType}-extract`).style.display = 'block';
         document.querySelector(`.my-pagination-${financialType}-extract`).style.display = 'none';
         document.querySelector(`.${financialType}-balance`).innerHTML = '';
+        document.querySelector(`.${financialType}-filter`).style.display = 'none';
         return;
     }
 
@@ -42,6 +41,7 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
     document.querySelector(`.my-timeline-${financialType}`).style.display = 'block';
     document.querySelector(`.no-result-${financialType}-extract`).style.display = 'none';
     document.querySelector(`.my-pagination-${financialType}-extract`).style.display = 'block';
+    document.querySelector(`.${financialType}-filter`).style.display = 'block';
 
     const totalFinancialType = arrFull.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
     document.querySelector(`.${financialType}-balance`).innerHTML = `Saldo total: ${currencyValue(totalFinancialType)}`;
@@ -63,8 +63,6 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
             timelineContent.appendChild(createHTMLElement('p', '', `<strong>${labelCategory}:</strong> ${category}`));
             timelineContent.appendChild(createHTMLElement('p', '', `<strong>Valor:</strong> ${currencyValue(detail.value)} <hr>`));
 
-
-            console.log(timelineContent)
         })
 
         timelineItem.appendChild(timelineContent)
