@@ -48,6 +48,8 @@ const sumBalanceTotal = () => {
         totalBalanceCard.classList.remove('positiveBalance');
         totalBalanceCard.classList.remove('negativeBalance');
     }
+
+    renderExpenseIncomeChart();
 }
 
 if ('customElements' in window) {

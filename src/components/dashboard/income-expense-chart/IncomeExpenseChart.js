@@ -30,7 +30,49 @@ const renderExpenseIncomeChart = () => {
         }]
     }
 
-    console.log(data)
+    const options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        legend: {
+            display: true,
+            position: 'bottom'
+        },
+        labels: {
+            fontSize: 50
+        },
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+    
+                    return currencyValue(value)
+                }
+            }
+        }
+    }
+
+    if (window.totalIncomesVariable === 0 && window.totalExpensesVariable === 0) {
+        if (expenseIncomePieChart) {
+            expenseIncomePieChart.destroy();
+            expenseIncomePieChart = null;
+        }
+        ctx.canvas.style.display = 'none';
+        noDateMessage.style.display = 'block';
+    } else {
+        noDateMessage.style.display = 'none';
+        ctx.canvas.style.display = 'block';
+
+        if (expenseIncomePieChart) {
+            expenseIncomePieChart.data.datasets[0].data = [window.totalIncomesVariable, window.totalExpensesVariable];
+            expenseIncomePieChart.update();
+        } else {
+            expenseIncomePieChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options
+            })
+        }
+    }
 }
 
 if ('customElements' in window) {
