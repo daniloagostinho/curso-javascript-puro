@@ -93,7 +93,7 @@ const buildPaginationExtract = (financialType, arr) => {
     const prevButton = document.querySelector(`.prev${financialType}Extract`)
     const nextButton = document.querySelector(`.next${financialType}Extract`)
 
-    if (reverseArray.lentgh <= window.itemsPerPage) {
+    if (reverseArray.length <= window.itemsPerPage) {
         nextButton.disabled = true;
     }
 
