@@ -1,0 +1,58 @@
+.my-timeline-expense {
+    list-style-type: none;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .my-timeline-expense li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  
+  .my-line {
+    position: absolute;
+    left: 8px;
+    width: 2px;
+    height: 100%;
+    background-color: #ccc;
+    z-index: 999;
+  }
+  
+  .my-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #565759;
+    position: relative;
+    z-index: 99999;
+    margin-bottom: -8px;
+    margin-right: 20px;
+  }
+  
+  .my-timeline-expense-content h4 {
+    margin-top: 0;
+  }
+  
+  .my-timeline-expense-content p {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+  
+  .my-timeline-expense-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    margin-left: 20px;
+  }
+  
+  .my-pagination-expense-extract {
+    position: relative;
+    float: right;
+    right: 10px;
+    top: 88%;
+  }

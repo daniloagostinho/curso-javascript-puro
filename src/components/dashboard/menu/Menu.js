@@ -83,6 +83,7 @@ const financialDataExtract = (financialType) => {
         removeComponentsDashboard();
     } else {
         removeComponentsDashboard();
+        removeComponentIcomesExtract();
     }
 
     document.querySelector(`.${financialType}s-extract`).style.display = 'block';
@@ -97,6 +98,10 @@ const financialDataExtract = (financialType) => {
                 data: response
             }
         })
+}
+
+const removeComponentIcomesExtract = () => {
+    document.querySelector('.incomes-extract').style.display = 'none';
 }
 
 if ('customElements' in window) {
