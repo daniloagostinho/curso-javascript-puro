@@ -114,7 +114,7 @@ window.arrowRight = 'src/assets/images/arrow-right.png';
 window.monthsDate;
 window.yearSelected;
 window.optionsFilterIncome = [
-    'Salario', 
+    'Salário', 
     'Rendimentos autônomos',
     'Rendimentos passivos',
     'Bônus',

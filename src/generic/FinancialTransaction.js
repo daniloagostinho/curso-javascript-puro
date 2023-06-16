@@ -76,6 +76,7 @@ const fetchFinancialRecords = async (financialType) => {
                     window.filteredFincialArrayExpense = financialList;
 
                     financialList.forEach(item => {
+                        console.log(item)
                         item.expired = isExpenseExpired(item.dueDate)
                     })
                 }
@@ -276,7 +277,7 @@ const updateTableRows = (financialType, financialList) => {
 
     financialList.forEach(item => {
         const tr = document.createElement('tr');
-        const expiredClass = item.expired ? 'expired' : 'not-expired';
+        const expiredClass = item.expired ? 'not-expired' : 'expired' ;
         if (financialType === 'income') {
             tr.innerHTML = `
                 <td>${item.income}</td>
@@ -297,7 +298,7 @@ const updateTableRows = (financialType, financialList) => {
                 <td>${currencyValue(item.value)}</td>
                 <td>${new Date(item.dueDate).toLocaleDateString('pt-BR', options)}</td>
                 <td class="hide-id-column">${item._id}</td>
-                <td class="${expiredClass}">${item.expired ? 'Vencidada': 'Não vencida'}</td>
+                <td class="${expiredClass}">${item.expired ? 'Não vencida' :'Vencida'}</td>
                 <td>
                     <img class="image" src="${item.actions[0]}" />
                     <img class="image" src="${item.actions[1]}" />
@@ -377,8 +378,8 @@ const searchFinancialRecords = (event, financialType) => {
         })    
     }
 
-
-    if (window.filteredFincialArrayIncome.length > 0 || window.filteredFincialArrayExpense.length > 0) {
+    debugger;
+    if (window.filteredFincialArrayIncome.length > 0 && window.filteredFincialArrayExpense.length > 0) {
         noResult.style.display = 'none';
         pagination.style.display = 'block';
         tableHead.style.display = 'table-header-group';
@@ -512,7 +513,6 @@ const filterFinancialRecords = (financialType, typeFilter) => {
 
         if (financialType === 'income') {
             window.filteredFincialArrayIncome = financialArray.filter(item => {
-                console.log(item);
                 const value = Number(item.value);
                 return value >= min && value <= max;
             })
@@ -583,6 +583,7 @@ const clearTable = (financialType) => {
 const isExpenseExpired = (dueDate) => {
     const currentDate = new Date();
     const expenseDate = new Date(dueDate);
+
 
     return currentDate > expenseDate;
 }
