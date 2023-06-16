@@ -136,6 +136,11 @@ const showComponentsDashboard = () => {
 
 }
 
+const logout = () => {
+    localStorage.removeItem('token');
+    navigateTo('/');
+}
+
 if ('customElements' in window) {
     customElements.define('app-menu', Menu)
 }
