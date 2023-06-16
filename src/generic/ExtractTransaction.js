@@ -61,7 +61,7 @@ const populateTransactionCards = (financialType, arr, arrFull) => {
 
             timelineContent.appendChild(createHTMLElement('p', '', `<strong>${dateLabel}:</strong> ${detailDate.toLocaleDateString('pt-BR', options)}`));
             timelineContent.appendChild(createHTMLElement('p', '', `<strong>${labelCategory}:</strong> ${category}`));
-            timelineContent.appendChild(createHTMLElement('p', '', `<strong>Valor:</strong> ${currencyValue(detail.value)}`));
+            timelineContent.appendChild(createHTMLElement('p', '', `<strong>Valor:</strong> ${currencyValue(detail.value)} <hr>`));
 
 
             console.log(timelineContent)

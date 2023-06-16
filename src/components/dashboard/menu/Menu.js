@@ -81,6 +81,7 @@ const removeComponentsDashboard = () => {
 const financialDataExtract = (financialType) => {
     if (financialType === 'income') {
         removeComponentsDashboard();
+        removeComponentExpensesExtract();
     } else {
         removeComponentsDashboard();
         removeComponentIcomesExtract();
@@ -102,6 +103,37 @@ const financialDataExtract = (financialType) => {
 
 const removeComponentIcomesExtract = () => {
     document.querySelector('.incomes-extract').style.display = 'none';
+}
+
+const removeComponentExpensesExtract = () => {
+    document.querySelector('.expenses-extract').style.display = 'none';
+}
+
+const showDashboard = () => {
+    document.querySelector('.incomes-extract').style.display = 'none';
+    document.querySelector('.expenses-extract').style.display = 'none';
+
+    showComponentsDashboard();
+}
+
+
+const showComponentsDashboard = () => {
+    const selectorComponents = [
+        '.total-income-component',
+        '.total-expense-component',
+        '.total-balance-component',
+        '.incomes-component',
+        '.expenses-component'
+    ];
+
+    selectorComponents.forEach(component => {
+        const element = document.querySelector(component);
+
+        if (element) {
+            element.style.display = 'block';
+        }
+    })
+
 }
 
 if ('customElements' in window) {
